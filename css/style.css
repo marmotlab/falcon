@@ -59,25 +59,115 @@ body {
 
 /* Navbar */
 .navbar {
-    background: #8C1515;
-    padding: 1rem 0;
+  background: #181897;
+  padding: 1rem 0;
+}
+.navbar .container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between; /* logo left, nav links take remaining space */
+  gap: 1rem;
 }
 .navbar .logo img {
-    height: 40px;
+  height: 40px;
 }
 .navbar .nav-links {
-    list-style: none;
-    display: inline-block;
-    float: right;
+  list-style: none;
+  display: flex;
+  flex: 1; /* occupy remaining horizontal space */
+  justify-content: space-evenly; /* evenly distribute the links */
+  align-items: center;
+  margin: 0;
+  padding: 0;
 }
 .navbar .nav-links li {
-    display: inline;
-    margin-left: 1.5rem;
+  display: block;
+  margin: 0; /* spacing handled by space-evenly */
 }
 .navbar .nav-links a {
-    color: white;
-    text-decoration: none;
-    font-weight: bold;
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+  display: inline-block;
+  padding: 0.25rem 0.5rem;
+}
+
+
+/* Dropdown styles for Result menu */
+.nav-links .has-dropdown {
+  position: relative;
+}
+.nav-links .has-dropdown > a {
+  display: inline-flex;
+  align-items: center;
+}
+.nav-links .has-dropdown > a::after {
+  content: '\25BE'; /* small down caret */
+  font-size: 0.6rem;
+  margin-left: 0.35rem;
+  opacity: 0.9;
+}
+.nav-links .dropdown {
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0;
+  min-width: 160px;
+  background: #fff;
+  border-radius: 6px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+  padding: 0.35rem 0;
+  display: none;
+  z-index: 60;
+}
+.nav-links .dropdown li {
+  list-style: none;
+}
+.nav-links .dropdown a {
+  display: block;
+  padding: 0.5rem 1rem;
+  color: var(--text-color, #222);
+  white-space: nowrap;
+}
+.nav-links .dropdown a:hover {
+  background: rgba(0,0,0,0.03);
+}
+
+/* Show dropdown on hover for pointer devices */
+@media (hover: hover) {
+  .nav-links .has-dropdown:hover > .dropdown,
+  .nav-links .has-dropdown.open > .dropdown {
+    display: block;
+  }
+}
+
+/* On small screens make dropdown cover full width under the nav link */
+@media (max-width: 900px) {
+  .nav-links {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .nav-links .dropdown {
+    position: static;
+    box-shadow: none;
+    padding-left: 0.5rem;
+    display: none;
+  }
+  .nav-links .has-dropdown.open > .dropdown {
+    display: block;
+  }
+}
+/* For small screens, stack nav items and keep logo on top */
+@media (max-width: 768px) {
+  .navbar .container {
+  flex-direction: column;
+  align-items: stretch;
+  gap: 0.5rem;
+  }
+  .navbar .nav-links {
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.25rem 1rem;
+  }
 }
 
 
@@ -136,16 +226,104 @@ body {
 
 /* Hero */
 .hero {
-    /*background: url('../assets/hero-bg.jpg') center/cover no-repeat;*/
-    color: #666666;
-    text-align: center;
-    padding: 6rem 0;
+  /*background: url('../assets/hero-bg.jpg') center/cover no-repeat;*/
+  color: #666666;
+  text-align: center;
+  padding: 6rem 0;
+  position: relative; /* create stacking context for the background video */
+  overflow: hidden; /* ensure video doesn't overflow hero area */
 }
 .hero h1 {
       font-size: 2.5rem;      /* 根据需要微调，原来太大就调小 */
       line-height: 1.2;       /* 紧凑一点 */
-      margin-bottom: 1rem;
+  margin-bottom: 1rem;
+  /* Use inline layout so the icon sits directly before the word 'FALCON' */
+  display: block;
+  text-align: center;
+  gap: 0.8rem;
 }
+
+/* Background video behind hero content */
+.hero .hero-bg-video {
+  position: absolute;
+  inset: 0; /* top:0; right:0; bottom:0; left:0 */
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center center;
+  opacity: 0.4; /* slightly less faded */
+  filter: brightness(0.6) contrast(0.95);
+  z-index: 0; /* behind content */
+  pointer-events: none; /* allow clicks through video */
+}
+
+/* Ensure content sits above the video */
+.hero > .container {
+  position: relative;
+  z-index: 2;
+}
+
+@media (max-width: 900px) {
+  /* reduce visual clutter on small screens */
+  .hero .hero-bg-video { opacity: 0.18; filter: brightness(0.72); }
+  .hero { padding: 4rem 0; }
+}
+
+/* Small title icon placed left of the main H1 text */
+.title-icon {
+  width: 42px;
+  height: auto;
+  display: inline-block;
+  vertical-align: middle;
+  margin-right: 0.5rem;
+  object-fit: contain;
+}
+
+/* Ensure title text stays as a single flex item and doesn't break into multiple blocks */
+.title-text {
+  display: inline-block;
+  vertical-align: middle;
+  max-width: 70ch; /* prevent extremely long single-line overflow */
+  text-align: center;
+}
+
+/* Ensure icon stays directly left of 'FALCON' and doesn't wrap away */
+.brand {
+  display: inline-flex;
+  align-items: center;
+  white-space: nowrap;
+  gap: 0.4rem;
+  margin-right: 0.45rem;
+}
+
+@media (max-width: 700px) {
+  .hero h1 {
+    font-size: 1.6rem;
+    gap: 0.5rem;
+    text-align: center;
+  }
+  .title-icon {
+    width: 40px;
+  }
+}
+/* Custom cursor using assets/robo.png with fallback to assets/falcon.png */
+/* CSS file lives in css/, so assets are referenced as ../assets/ */
+/* Apply custom cursor to the page. If you don't see it, try a hard refresh (Ctrl/Cmd+Shift+R).
+   Use hotspot (0 0) which maps to the top-left pixel of the image (works better for many browsers).
+*/
+html, body {
+  cursor: url('../assets/icon/robo-32-sharp2.cur') 16 16, url('../assets/falcon.png') 16 16, pointer;
+}
+
+a, button {
+  cursor: pointer;
+}
+
+/* Videos: use same custom cursor for consistency */
+video { cursor: url('../assets/icon/robo-32-sharp2.cur') 16 16, url('../assets/falcon.png') 16 16, auto; }
+
+/* Debug helper: add .show-default-cursor to body to force a visible system cursor if needed */
+.show-default-cursor { cursor: default !important; }
 .hero p {
     font-size: 1.2rem;        /* 你想要的大小 */
     line-height: 1.6;       /* 可读性 */
@@ -153,12 +331,12 @@ body {
     text-align: justify;
 }
 .highlight {
-  color: #8C1515;         /* Stanford Cardinal Red */
+  color: #181897;         /* Stanford Cardinal Red */
   font-weight: bold;      /* 可选，加粗更突出 */
 }
 
 .btn {
-    background: #8C1515;
+    background: #181897;
     padding: 0.75rem 1.5rem;
     color: white;
     text-decoration: none;
@@ -167,12 +345,36 @@ body {
 }
 
 .hero-text-img p .wrap-img {
-  float: left;
-  width: 390px;
+  /* Make banner/image span the same width as the container (body text) */
+  float: none;
+  display: block;
+  width: 100%;           /* fill the parent .container width */
+  max-width: 100%;
+  height: auto;
+  margin: 0 0 1rem 0;    /* spacing below the image before the paragraph text */
   transition: transform .2s ease-in-out;
+  object-fit: cover;
 }
 .hero-text-img p .wrap-img:hover {
-  transform: scale(1.5);   /* 鼠标悬停时放大 20% */
+  transform: scale(1.2);   /* 鼠标悬停时小幅放大，避免过大缩放 */
+}
+
+/* Generic responsive image utility: keeps image within its container */
+.wrap-img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  transition: transform 0.25s ease-in-out; /* enable smooth hover transforms by default */
+}
+
+/* Full-bleed: stretch image to span the entire viewport width (ignores .container limits).
+   Use by adding `full-bleed` alongside `wrap-img`, e.g. `<img class="wrap-img full-bleed">` */
+.wrap-img.full-bleed {
+  width: 90vw;
+  margin-left: calc(50% - 45vw);
+  margin-right: calc(50% - 45vw);
+  max-width: none;
+  display: block;
 }
 
 /* 清理 float，保证外层容器撑开高度 */
@@ -277,7 +479,7 @@ body {
 
 /* Footer */
 footer {
-    background: #8C1515;
+    background: #181897;
     color: white;
     text-align: center;
     padding: 1.5rem 0;
@@ -329,13 +531,192 @@ footer {
   box-shadow: 0 8px 16px rgba(0,0,0,0.2);
 }
 
+/* Enable gentle hover-enlarge specifically for images in the Framework and Result sections.
+   Use media query so it only applies on devices that support hover (avoids interfering with touch).
+   This targets the two images you mentioned (framework_straight.png and pic2.png). */
+@media (hover: hover) {
+  #framework .wrap-img:hover,
+  #result .wrap-img:hover {
+    transform: scale(1.05);
+    transform-origin: center;
+    z-index: 2; /* bring above surrounding text if overlap occurs */
+    box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+  }
+}
 
-/* S1 部分：6x5 视频网格 */
-.s1-video-grid {
+
+/* S1 部分：1x1  */
+.s1-video-mid {
   display: grid;
-  grid-template-columns: repeat(6, 1fr);
+  /* Responsive, centered grid: each column is at least 220px, grow to fill. */
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
   gap: 1rem;
   margin: 1.5rem 0;
+  width: 100%;
+  max-width: 1100px; /* limit how wide the grid becomes on large screens */
+  margin-left: auto;
+  margin-right: auto; /* center the grid within its container */
+}
+
+/* 2x3 grid for Task1 human-in-the-loop: 6 equal cells (1 image + 5 videos) */
+.grid-2x3 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-auto-rows: 220px; /* fixed row height so items are same size */
+  gap: 0.75rem;
+  max-width: 1100px;
+  margin: 1rem auto;
+}
+.grid-2x3 .grid-item {
+  position: relative;
+  overflow: visible;
+}
+.grid-2x3 img {
+  width: 100%;
+  height: 100%;
+  /* show the whole thumbnail without cropping; keep some padding so it doesn't touch rounded corners */
+  object-fit: contain;
+  display: block;
+  border-radius: 6px;
+  padding: 6px;
+  box-sizing: border-box;
+  background: #fafafa;
+  transition: transform 0.22s ease, box-shadow 0.22s ease;
+}
+.grid-2x3 video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  border-radius: 6px;
+  transition: transform 0.22s ease, box-shadow 0.22s ease;
+}
+
+/* Hover enlarge only on pointer devices */
+@media (hover: hover) {
+  .grid-2x3 .grid-item:hover img,
+  .grid-2x3 .grid-item:hover video {
+    transform: scale(1.08);
+    z-index: 30;
+    box-shadow: 0 12px 30px rgba(0,0,0,0.2);
+  }
+}
+
+@media (max-width: 900px) {
+  .grid-2x3 {
+    grid-template-columns: repeat(2, 1fr);
+    grid-auto-rows: 180px;
+  }
+}
+@media (max-width: 500px) {
+  .grid-2x3 {
+    grid-template-columns: 1fr;
+    grid-auto-rows: 160px;
+  }
+}
+
+/* Indent the Task1 results block so it sits inset from the main Result heading */
+.Task1-results {
+  /* Center container but keep text left-aligned; images will be centered separately */
+  margin: 0 auto;
+  max-width: 1100px;
+  text-align: left;
+  padding: 1rem 0; /* vertical spacing */
+}
+
+.Task1-results h3,
+.Task1-results h4 {
+  text-align: left;
+  margin: 0.5rem 0;
+}
+
+/* Constrain single mid-size video to match body text width */
+.s1-video-mid {
+  max-width: 800px; /* similar to body content width; adjust as needed */
+  width: 100%;
+  margin: 0.75rem auto; /* center the video block */
+  text-align: center;
+}
+.s1-video-mid video {
+  width: 100%;
+  height: auto;
+  max-width: 100%;
+  display: block;
+}
+
+/* Ensure images inside the Task1/Task2 result block match the video width */
+.Task1-results .wrap-img {
+  max-width: 800px; /* same as .s1-video-mid */
+  width: 100%;
+  display: block;
+  margin: 0.75rem auto; /* center the image horizontally */
+}
+
+/* Allow the mid video and row videos to smoothly scale on hover (desktop only) */
+.s1-video-mid,
+.s2-video-row,
+.s3-video-row {
+  position: relative; /* for z-index stacking of hovered child */
+  overflow: visible;  /* allow scaled video to overflow without being clipped */
+}
+.s1-video-mid video,
+.s2-video-row video,
+.s3-video-row video {
+  transition: transform 0.25s ease-in-out, box-shadow 0.25s ease-in-out;
+  transform-origin: center;
+  will-change: transform;
+}
+
+@media (hover: hover) {
+  .s1-video-mid video:hover,
+  .s2-video-row video:hover,
+  .s3-video-row video:hover {
+    transform: scale(1.05);
+    z-index: 10;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+  }
+}
+
+/* Two-column layout: left large video + right stacked small videos */
+.two-column-videos {
+  display: grid;
+  /* make left bigger and right column narrower so the three stacked videos are smaller */
+  grid-template-columns: 3fr 1fr;
+  gap: 1rem;
+  align-items: start;
+  margin: 1rem 0 2rem 0;
+  max-width: 1100px;
+}
+.two-column-videos .left-big video {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+.two-column-videos .right-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+.two-column-videos .right-stack video {
+  width: 100%;
+  height: auto;
+  max-height: 127.5px; /* restrict height so stacked videos appear smaller */
+  object-fit: cover; /* crop if necessary to maintain aspect */
+  display: block;
+}
+
+/* Responsive: stack vertically on small screens */
+@media (max-width: 900px) {
+  .two-column-videos {
+    grid-template-columns: 1fr;
+  }
+  .two-column-videos .right-stack {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+  .two-column-videos .right-stack video {
+    width: calc(50% - 0.5rem);
+  }
 }
 
 /*!* 视频样式：自适应宽度、自动播放循环、悬停放大 *!*/
@@ -348,7 +729,106 @@ footer {
 
 /* 悬停时放大 5% */
 .s1-video-grid video:hover {
-  transform: scale(5);
+  transform: scale(1.05);
+}
+
+/* Make all videos have a smooth hover-scale on hover-capable devices */
+video {
+  transition: transform 0.25s ease-in-out, box-shadow 0.25s ease-in-out;
+  transform-origin: center;
+  will-change: transform;
+}
+
+@media (hover: hover) {
+  video:hover {
+    transform: scale(1.05);
+    z-index: 15;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+  }
+}
+
+/* Stronger hover effect for Task result videos (right-stack) */
+@media (hover: hover) {
+  .two-column-videos .right-stack video {
+    transition: transform 220ms ease, box-shadow 220ms ease;
+    transform-origin: center;
+    will-change: transform;
+    cursor: pointer;
+  }
+  .two-column-videos .right-stack video:hover {
+    transform: scale(1.8);
+    z-index: 30; /* float above neighbors */
+    box-shadow: 0 18px 40px rgba(0,0,0,0.25);
+  }
+
+  /* Slight emphasis for the large left video */
+  .two-column-videos .left-big video:hover {
+    /* expand towards the right and slightly up so it overlays the top of the right column */
+    transform-origin: 100% 50%; /* right center */
+    transform: scale(1.15);
+    z-index: 60;
+    box-shadow: 0 20px 44px rgba(0,0,0,0.22);
+  }
+}
+
+/* Ensure the two-column container allows overlap and establish stacking contexts */
+.two-column-videos {
+  position: relative;
+  overflow: visible; /* allow hovered video to extend into the right column */
+}
+.two-column-videos .left-big,
+.two-column-videos .right-stack {
+  position: relative; /* create stacking context children */
+}
+.two-column-videos .right-stack {
+  z-index: 10; /* normally above left column so left hover needs higher z-index to overlap */
+}
+
+/* Introduction video: centered wrapper with overlay play button */
+.video-wrapper {
+  position: relative;
+  max-width: 800px;
+  margin: 0.75rem auto;
+}
+.video-wrapper video {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 6px;
+  background: #000;
+}
+.video-overlay {
+  position: absolute;
+  inset: 0; /* top:0; right:0; bottom:0; left:0 */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0,0,0,0.20);
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  transition: background 0.18s ease, opacity 0.18s ease;
+  color: #fff;
+}
+.video-overlay svg { width: 72px; height: 72px; }
+.video-overlay:hover svg { transform: scale(1.05); }
+.video-overlay.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
+
+@media (max-width: 600px) {
+  .video-overlay svg { width: 52px; height: 52px; }
+  .video-wrapper { max-width: 100%; }
+}
+
+/* Indent small headings inside Task1 results */
+.Task1-results h4 {
+  margin-left: 1.25rem; /* indent subheadings under Task1 */
+  font-weight: 600;
+}
+
+@media (max-width: 700px) {
+  .Task1-results h4 {
+    margin-left: 0.6rem; /* reduce indent on small screens */
+  }
 }
 
 
@@ -397,6 +877,19 @@ footer {
 }
 .affiliations sup {
   font-size: 0.75rem;
+}
+
+/* Strong override for full-bleed banner when used inside the hero text.
+   This increases specificity and removes the float so the image spans the
+   full viewport width. If this still doesn't take effect, the image tag
+   may have inline styles or other higher-specificity rules. */
+.hero-text-img p .wrap-img.full-bleed {
+  width: 100vw !important;
+  max-width: none;
+  margin-left: calc(50% - 50vw);
+  margin-right: calc(50% - 50vw);
+  display: block;
+  float: none;
 }
 
 /* 给三个小节标题增加上方间距 */
