@@ -237,7 +237,7 @@ body {
   /* Use a code/monospace font for the big title */
   font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, Monaco, 'Courier New', monospace;
   font-weight: 700;
-  font-size: 3.5rem;      /* doubled from 2.5rem as requested */
+  font-size: 4rem;      /* slightly larger so the title scope is wider */
   line-height: 1.2;
   margin-bottom: 1rem;
   /* Use inline layout so the icon sits directly before the word 'FALCON' */
@@ -274,11 +274,11 @@ body {
 
 /* Small title icon placed left of the main H1 text */
 .title-icon {
-  width: 42px;
+  width: 60px; /* slightly larger icon */
   height: auto;
   display: inline-block;
   vertical-align: middle;
-  margin-right: 0.5rem;
+  margin-right: 0.8rem; /* more space between icon and title */
   object-fit: contain;
 }
 
@@ -286,7 +286,7 @@ body {
 .title-text {
   display: inline-block;
   vertical-align: middle;
-  max-width: 70ch; /* prevent extremely long single-line overflow */
+  max-width: 90ch; /* allow the title to span wider so the scope looks larger */
   text-align: center;
 }
 
@@ -313,7 +313,7 @@ body {
     text-align: center;
   }
   .title-icon {
-    width: 40px;
+    width: 48px;
   }
   /* Reduce brand size on small screens so layout stays compact */
   .brand {
@@ -422,13 +422,13 @@ video { cursor: url('../assets/icon/robo-32-sharp2.cur') 16 16, url('../assets/f
 
 /* Sections */
 .section {
-    padding: 4rem 0;
+    padding: 3rem 0; /* reduce vertical spacing between sections */
 }
 .section h2 {
   text-align: left;
   font-family: Arial, sans-serif;
   color: #666666;
-  margin-bottom: 2rem;
+  margin-bottom: 1rem; /* reduce the large gap after secondary headings */
   font-size: 2rem;
 }
 
