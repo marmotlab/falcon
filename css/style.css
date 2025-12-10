@@ -234,10 +234,11 @@ body {
   overflow: hidden; /* ensure video doesn't overflow hero area */
 }
 .hero h1 {
-  font-family: 'Playfair Display', serif;
+  /* Use a code/monospace font for the big title */
+  font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, Monaco, 'Courier New', monospace;
   font-weight: 700;
-  font-size: 2.5rem;      /* 根据需要微调，原来太大就调小 */
-  line-height: 1.2;       /* 紧凑一点 */
+  font-size: 3.5rem;      /* doubled from 2.5rem as requested */
+  line-height: 1.2;
   margin-bottom: 1rem;
   /* Use inline layout so the icon sits directly before the word 'FALCON' */
   display: block;
@@ -298,13 +299,16 @@ body {
   margin-right: 0.45rem;
   /* Make the word "FALCON:" blue and slightly larger than the rest of the H1 */
   color: #181897; /* primary blue used across the site */
-  font-size: 2.8rem;
+  /* inherit the hero font (monospace) and size so it matches the H1 */
+  font-family: inherit;
+  font-size: inherit;
   font-weight: 700;
 }
 
 @media (max-width: 700px) {
   .hero h1 {
-    font-size: 1.6rem;
+    /* scale down proportionally for small screens */
+    font-size: 3.2rem; /* ~0.64 of 5rem, matches previous responsive ratio */
     gap: 0.5rem;
     text-align: center;
   }
@@ -313,7 +317,7 @@ body {
   }
   /* Reduce brand size on small screens so layout stays compact */
   .brand {
-    font-size: 1.6rem;
+    font-size: inherit; /* keep matching the H1 */
   }
 }
 /* Custom cursor using assets/robo.png with fallback to assets/falcon.png */
@@ -474,17 +478,45 @@ video { cursor: url('../assets/icon/robo-32-sharp2.cur') 16 16, url('../assets/f
 .team-grid {
     display: flex;
     justify-content: center;
-    gap: 2rem;
+    gap: 1.5rem; /* slightly larger gap for more breathing room */
+    flex-wrap: wrap; /* allow wrapping on very small screens */
+    align-items: center;
 }
 .team-member {
     text-align: center;
+    flex: 0 0 auto; /* do not stretch; size determined by image */
+    width: auto;
+    box-sizing: border-box;
+    padding: 0.5rem;
 }
 .team-member img {
-    width: 150px;
-    height: 150px;
-    border-radius: 50%;
-    object-fit: cover;
-    margin-bottom: 1rem;
+  /* keep avatars square and avoid stretching: set both width and height
+     to the same responsive clamp value and use object-fit: cover to crop */
+  width: clamp(110px, 9vw, 150px);
+  height: clamp(110px, 9vw, 150px);
+  aspect-ratio: 1 / 1;
+  border-radius: 50%;
+  object-fit: cover; /* crop the image to fill the square without distortion */
+  margin: 0 auto 1rem;
+  display: block;
+}
+
+/* On medium screens use two columns if space is tight */
+@media (max-width: 900px) {
+  .team-member { width: calc(50% - 1rem); }
+}
+/* On small screens stack full width */
+@media (max-width: 500px) {
+  .team-member { width: 100%; }
+}
+
+/* On wide screens: force a single row */
+@media (min-width: 901px) {
+  .team-grid {
+    flex-wrap: nowrap; /* keep all items on one line */
+    /* remove horizontal scrollbar; avatars will scale down via clamp() if needed */
+    overflow-x: visible;
+  }
 }
 
 /* Footer */
