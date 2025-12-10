@@ -234,8 +234,10 @@ body {
   overflow: hidden; /* ensure video doesn't overflow hero area */
 }
 .hero h1 {
-      font-size: 2.5rem;      /* 根据需要微调，原来太大就调小 */
-      line-height: 1.2;       /* 紧凑一点 */
+  font-family: 'Playfair Display', serif;
+  font-weight: 700;
+  font-size: 2.5rem;      /* 根据需要微调，原来太大就调小 */
+  line-height: 1.2;       /* 紧凑一点 */
   margin-bottom: 1rem;
   /* Use inline layout so the icon sits directly before the word 'FALCON' */
   display: block;
@@ -294,6 +296,10 @@ body {
   white-space: nowrap;
   gap: 0.4rem;
   margin-right: 0.45rem;
+  /* Make the word "FALCON:" blue and slightly larger than the rest of the H1 */
+  color: #181897; /* primary blue used across the site */
+  font-size: 2.8rem;
+  font-weight: 700;
 }
 
 @media (max-width: 700px) {
@@ -304,6 +310,10 @@ body {
   }
   .title-icon {
     width: 40px;
+  }
+  /* Reduce brand size on small screens so layout stays compact */
+  .brand {
+    font-size: 1.6rem;
   }
 }
 /* Custom cursor using assets/robo.png with fallback to assets/falcon.png */
@@ -411,27 +421,27 @@ video { cursor: url('../assets/icon/robo-32-sharp2.cur') 16 16, url('../assets/f
     padding: 4rem 0;
 }
 .section h2 {
-    text-align: left;
-    font-family: Arial, sans-serif;
-    color: #666666;
-    margin-bottom: 2rem;
-    font-size: 2rem;
+  text-align: left;
+  font-family: Arial, sans-serif;
+  color: #666666;
+  margin-bottom: 2rem;
+  font-size: 2rem;
 }
 
 .section h3 {
-    text-align: left;
-    font-family: Arial, sans-serif;
-    color: #666666;
-    margin-bottom: 2rem;
-    font-size: 1.8rem;
+  text-align: left;
+  font-family: Arial, sans-serif;
+  color: #666666;
+  margin-bottom: 2rem;
+  font-size: 1.8rem;
 }
 
 .section h4 {
-    text-align: left;
-    font-family: Arial, sans-serif;
-    color: #666666;
-    margin-bottom: 2rem;
-    font-size: 1.6rem;
+  text-align: left;
+  font-family: Arial, sans-serif;
+  color: #666666;
+  margin-bottom: 2rem;
+  font-size: 1.6rem;
 }
 
 #alt-results,
@@ -819,14 +829,18 @@ video {
   .video-wrapper { max-width: 100%; }
 }
 
-/* Indent small headings inside Task1 results */
-.Task1-results h4 {
-  margin-left: 1.25rem; /* indent subheadings under Task1 */
+/* Indent small headings inside Task result blocks (Task1, Task2, More Tasks) */
+.Task1-results h4,
+.Task2-results h4,
+#more-tasks h4 {
+  margin-left: 1.25rem; /* indent subheadings under each Task block */
   font-weight: 600;
 }
 
 @media (max-width: 700px) {
-  .Task1-results h4 {
+  .Task1-results h4,
+  .Task2-results h4,
+  #more-tasks h4 {
     margin-left: 0.6rem; /* reduce indent on small screens */
   }
 }
@@ -996,5 +1010,35 @@ video {
 .bibtex code {
   white-space: pre;               /* 保留所有空格和换行 */
   display: block;
+}
+
+/* Animated ellipsis for 'More Tasks' heading: three dots that animate sequentially */
+.more-ellipsis {
+  display: inline-block;
+  margin-left: 0.4rem;
+  vertical-align: text-bottom;
+}
+.more-ellipsis span {
+  display: inline-block;
+  font-weight: 700;
+  color: #181897; /* match site blue */
+  opacity: 0.25;
+  transform: translateY(0);
+  animation: more-dot 1s infinite ease-in-out;
+  margin: 0 2px;
+}
+.more-ellipsis span:nth-child(1) { animation-delay: 0s; }
+.more-ellipsis span:nth-child(2) { animation-delay: 0.15s; }
+.more-ellipsis span:nth-child(3) { animation-delay: 0.3s; }
+
+@keyframes more-dot {
+  0%, 20% { opacity: 0.25; transform: translateY(0); }
+  50% { opacity: 1; transform: translateY(-6px); }
+  100% { opacity: 0.25; transform: translateY(0); }
+}
+
+/* Reduce motion for users who prefer reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .more-ellipsis span { animation: none; opacity: 1; transform: none; }
 }
 
