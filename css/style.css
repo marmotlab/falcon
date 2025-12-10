@@ -284,10 +284,16 @@ body {
 
 /* Ensure title text stays as a single flex item and doesn't break into multiple blocks */
 .title-text {
-  display: inline-block;
+  display: block; /* allow the title to occupy full line and avoid narrow inline wrapping */
   vertical-align: middle;
-  max-width: 90ch; /* allow the title to span wider so the scope looks larger */
+  max-width: none; /* remove ch-based cap so it can fill the container */
+  width: 100%;
   text-align: center;
+}
+
+/* add - Let the hero's container be a bit wider so long titles have more horizontal room */
+.hero > .container {
+  max-width: 1200px; /* larger than the site's default 1000px, only in hero */
 }
 
 /* Ensure icon stays directly left of 'FALCON' and doesn't wrap away */
@@ -308,7 +314,7 @@ body {
 @media (max-width: 700px) {
   .hero h1 {
     /* scale down proportionally for small screens */
-    font-size: 3.2rem; /* ~0.64 of 5rem, matches previous responsive ratio */
+    font-size: 2.6rem; /* ~0.64 of 5rem, matches previous responsive ratio */
     gap: 0.5rem;
     text-align: center;
   }
