@@ -454,6 +454,13 @@ video { cursor: url('../assets/icon/robo-32-sharp2.cur') 16 16, url('../assets/f
   font-size: 1.6rem;
 }
 
+.section h5 {
+  text-align: left;
+  font-family: Arial, sans-serif;
+  color: #666666;
+  margin-bottom: 2rem;
+  font-size: 1.4rem;
+}
 #alt-results,
 #diffusion-model-analysis,
 #diffusion-policy-analysis,
@@ -602,8 +609,6 @@ footer {
   margin: 1.5rem 0;
   width: 100%;
   max-width: 1100px; /* limit how wide the grid becomes on large screens */
-  margin-left: auto;
-  margin-right: auto; /* center the grid within its container */
 }
 
 /* 2x3 grid for Task1 human-in-the-loop: 6 equal cells (1 image + 5 videos) */
@@ -680,7 +685,7 @@ footer {
 
 /* Constrain single mid-size video to match body text width */
 .s1-video-mid {
-  max-width: 800px; /* similar to body content width; adjust as needed */
+  max-width: 1000px; /* widened from 800px */
   width: 100%;
   margin: 0.75rem auto; /* center the video block */
   text-align: center;
@@ -727,40 +732,50 @@ footer {
 
 /* Two-column layout: left large video + right stacked small videos */
 .two-column-videos {
-  display: grid;
-  /* make left bigger and right column narrower so the three stacked videos are smaller */
-  grid-template-columns: 3fr 1fr;
+  display: flex;
+  align-items: stretch; /* Ensure right column stretches to match left height */
   gap: 1rem;
-  align-items: start;
   margin: 1rem 0 2rem 0;
   max-width: 1100px;
 }
+.two-column-videos .left-big {
+  width: calc(80% - 0.5rem); /* Make left wider to ensure it's the tallest element */
+  position: relative;
+}
 .two-column-videos .left-big video {
   width: 100%;
-  height: auto;
+  height: auto; /* Maintain aspect ratio */
   display: block;
+  margin: 0;
 }
 .two-column-videos .right-stack {
+  width: calc(20% - 0.5rem); /* Make right narrower to ensure it's shorter than left */
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  justify-content: space-between; /* Distribute videos to align top and bottom */
+  gap: 0.5rem;
 }
 .two-column-videos .right-stack video {
   width: 100%;
-  height: auto;
-  max-height: 127.5px; /* restrict height so stacked videos appear smaller */
-  object-fit: cover; /* crop if necessary to maintain aspect */
+  height: auto; /* Maintain aspect ratio */
   display: block;
+  flex: none;
+  margin: 0;
 }
 
 /* Responsive: stack vertically on small screens */
 @media (max-width: 900px) {
   .two-column-videos {
-    grid-template-columns: 1fr;
+    flex-direction: column;
+  }
+  .two-column-videos .left-big {
+    width: 100%;
   }
   .two-column-videos .right-stack {
+    width: 100%;
     flex-direction: row;
     flex-wrap: wrap;
+    gap: 1rem;
   }
   .two-column-videos .right-stack video {
     width: calc(50% - 0.5rem);
@@ -870,7 +885,10 @@ video {
 /* Indent small headings inside Task result blocks (Task1, Task2, More Tasks) */
 .Task1-results h4,
 .Task2-results h4,
-#more-tasks h4 {
+#more-tasks h4,
+.Task1-results h5,
+.Task2-results h5,
+#more-tasks h5 {
   margin-left: 1.25rem; /* indent subheadings under each Task block */
   font-weight: 600;
 }
@@ -878,7 +896,10 @@ video {
 @media (max-width: 700px) {
   .Task1-results h4,
   .Task2-results h4,
-  #more-tasks h4 {
+  #more-tasks h4,
+  .Task1-results h5,
+  .Task2-results h5,
+  #more-tasks h5 {
     margin-left: 0.6rem; /* reduce indent on small screens */
   }
 }
@@ -1078,5 +1099,46 @@ video {
 /* Reduce motion for users who prefer reduced motion */
 @media (prefers-reduced-motion: reduce) {
   .more-ellipsis span { animation: none; opacity: 1; transform: none; }
+}
+
+/* Image and Video side-by-side row */
+.img-video-row {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  margin: 1.5rem 0;
+  max-width: 1100px;
+}
+.img-video-row img,
+.img-video-row video {
+  width: calc(50% - 0.5rem);
+  height: auto;
+  display: block;
+  border-radius: 6px;
+  object-fit: contain;
+}
+
+@media (max-width: 900px) {
+  .img-video-row {
+    flex-direction: column;
+  }
+  .img-video-row img,
+  .img-video-row video {
+    width: 100%;
+  }
+}
+
+/* Hover effect for the image in the row (pic4) */
+.img-video-row img {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  cursor: pointer;
+  position: relative; /* Ensure z-index works */
+}
+
+.img-video-row img:hover {
+  transform: scale(1.1);
+  z-index: 15;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.15);
 }
 

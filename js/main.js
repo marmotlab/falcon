@@ -61,6 +61,22 @@ document.addEventListener('DOMContentLoaded', () => {
             video.controls = true;
         });
     }
+
+    // Hover to unmute specific video
+    const hoverSoundVideos = document.querySelectorAll('.hover-sound-video');
+    hoverSoundVideos.forEach(video => {
+        video.addEventListener('mouseenter', () => {
+            video.muted = false;
+            video.volume = 1.0;
+            // Attempt to play if paused (though it should be autoplaying)
+            if (video.paused) {
+                video.play().catch(err => console.log('Autoplay prevented:', err));
+            }
+        });
+        video.addEventListener('mouseleave', () => {
+            video.muted = true;
+        });
+    });
 });
 
 // Dropdown toggle for nav (support click-to-open on touch/mobile)
