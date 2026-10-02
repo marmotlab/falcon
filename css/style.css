@@ -1,7 +1,8 @@
 /* FALCON — a quiet, editorial home for the research. */
+/* Cache busting: keep font versions in sync with both HTML preload URLs. */
 @font-face {
   font-family: 'DM Sans';
-  src: url('../assets/fonts/dm-sans.woff2') format('woff2');
+  src: url('../assets/fonts/dm-sans.woff2?v=20261002-1') format('woff2');
   font-style: normal;
   font-weight: 400 700;
   font-display: swap;
@@ -9,7 +10,7 @@
 
 @font-face {
   font-family: 'Instrument Serif';
-  src: url('../assets/fonts/instrument-serif.woff2') format('woff2');
+  src: url('../assets/fonts/instrument-serif.woff2?v=20261002-1') format('woff2');
   font-style: normal;
   font-weight: 400;
   font-display: swap;

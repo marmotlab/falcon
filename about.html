@@ -14,10 +14,13 @@
   <meta content="assets/posters/overview.webp" property="og:image"/>
   <meta content="summary_large_image" name="twitter:card"/>
   <link href="assets/icon/falcon.png" rel="icon" type="image/png"/>
-  <link as="font" crossorigin="" href="assets/fonts/dm-sans.woff2" rel="preload" type="font/woff2"/>
-  <link as="font" crossorigin="" href="assets/fonts/instrument-serif.woff2" rel="preload" type="font/woff2"/>
-  <link href="css/style.css" rel="stylesheet"/>
-  <script defer="" src="js/main.js">
+  <!-- Cache busting: before deploying CSS, JS, or font updates, bump v=20261002-1
+       in index.html, about.html, and css/style.css together. Font preload URLs
+       must match the corresponding @font-face URLs. -->
+  <link as="font" crossorigin="" href="assets/fonts/dm-sans.woff2?v=20261002-1" rel="preload" type="font/woff2"/>
+  <link as="font" crossorigin="" href="assets/fonts/instrument-serif.woff2?v=20261002-1" rel="preload" type="font/woff2"/>
+  <link href="css/style.css?v=20261002-1" rel="stylesheet"/>
+  <script defer="" src="js/main.js?v=20261002-1">
   </script>
  </head>
  <body id="top">
