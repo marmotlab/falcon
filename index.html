@@ -1,486 +1,1382 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>FALCON: Actively Decoupled Visuomotor Policies</title>
-  <!-- Favicons -->
-  <link rel="icon" href="assets/icon/falcon.png" sizes="32x32" type="image/png">
-  <link rel="icon" href="assets/icon/falcon.png" sizes="16x16" type="image/png">
-  <link rel="apple-touch-icon" href="assets/icon/falcon.png" sizes="180x180">
-  <meta name="theme-color" content="#8C1515">
-  <!-- Load a serif display font for headings -->
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/style.css">
-  <script defer src="js/main.js"></script>
-</head>
-<body>
-
-
-    <!-- Hero Section -->
-    <header class="hero">
-        <!-- Background video (muted, autoplay, loop). Placed before .container so it sits behind the content. -->
-        <video class="hero-bg-video" autoplay muted loop playsinline preload="auto" aria-hidden="true">
-          <source src="assets/icon/go2arm_video.mp4" type="video/mp4">
-          <!-- fallback text intentionally empty -->
-        </video>
-        <div class="container">
-      <h1>
-        <span class="brand"><img src="assets/icon/falcon.png" alt="FALCON" class="title-icon">FALCON:</span>
-        <span class="title-text"> <span class="highlight">Actively Decoupled Visuomotor Policies</span> for Loco-Manipulation with <span class="highlight">Foundation-Model-Based</span> Coordination</span>
-      </h1>
-            <!-- 新增作者列表 -->
-            <div class="authors">
-              <p>
-                Chengyang He<sup>*</sup>,
-                Ge Sun<sup>*</sup>,
-                Yue Bai<sup></sup>,
-                Junkai Lu<sup></sup>,
-                Jiadong Zhao<sup></sup>,
-                Guillaume Sartoretti<sup></sup>
-              </p>
-            </div>
-            <div class="affiliations">
-              <p><sup></sup>National University of Singapore</p>
-              <!-- <p><sup>1</sup>Equal Contribution</p> -->
-            </div>
-        </div>
-    </header>
-    <!-- Navbar -->
-    <nav class="navbar">
-        <div class="container">
-            <a class="logo" href="index.html">
-                <img src="assets/logo.png" alt="Logo" />
-            </a>
-            <ul class="nav-links">
-                <li><a href="index.html">Home</a></li>
-                <li><a href="#abstract">Abstract</a></li>
-                <li><a href="#framework">Framework</a></li>
-                <li class="has-dropdown">
-                  <a href="#result" aria-haspopup="true" aria-expanded="false">Result</a>
-                  <ul class="dropdown" aria-label="Result submenu">
-                    <li><a href="#result">Overview</a></li>
-                    <li><a href="#task1">Task1</a></li>
-                    <li><a href="#task2">Task2</a></li>
-                  </ul>
-                </li>
-                <li><a href="#videos">Video</a></li>
-                <!-- <li><a href="#publications">Paper</a></li> -->
-                <li><a href="about.html">Team</a></li>
-                <li><a href="#contact">Contact</a></li>
-            </ul>
-        </div>
-    </nav>
-
-
-    <!-- Top Logos -->
-    <div class="top-logos">
-        <div class="container logo-row">
-          <img src="assets/logos/marmot_logo.png" alt="marmot" class="logo1">
-          <img src="assets/logos/nus_logo.png" alt="nus" class="logo2">
-        </div>
+ <head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>
+   FALCON: Actively Decoupled Visuomotor Policies for Loco-Manipulation with Foundation-Model-Based Coordination
+  </title>
+  <meta content="Modular diffusion policies, coordinated by a vision-language foundation model. Explore FALCON, a loco-manipulation framework from the National University of Singapore." name="description"/>
+  <meta content="#f8f9f5" name="theme-color"/>
+  <meta content="FALCON: Actively Decoupled Visuomotor Policies for Loco-Manipulation with Foundation-Model-Based Coordination" property="og:title"/>
+  <meta content="Modular diffusion policies, coordinated by a vision-language foundation model. Explore FALCON, a loco-manipulation framework from the National University of Singapore." property="og:description"/>
+  <meta content="website" property="og:type"/>
+  <meta content="assets/posters/overview.webp" property="og:image"/>
+  <meta content="summary_large_image" name="twitter:card"/>
+  <link href="assets/icon/falcon.png" rel="icon" type="image/png"/>
+  <link as="font" crossorigin="" href="assets/fonts/dm-sans.woff2" rel="preload" type="font/woff2"/>
+  <link as="font" crossorigin="" href="assets/fonts/instrument-serif.woff2" rel="preload" type="font/woff2"/>
+  <link href="css/style.css" rel="stylesheet"/>
+  <script defer="" src="js/main.js">
+  </script>
+  <meta content="FALCON: Actively Decoupled Visuomotor Policies for Loco-Manipulation with Foundation-Model-Based Coordination" name="citation_title"/>
+  <meta content="Chengyang He" name="citation_author"/>
+  <meta content="Ge Sun" name="citation_author"/>
+  <meta content="Yue Bai" name="citation_author"/>
+  <meta content="Junkai Lu" name="citation_author"/>
+  <meta content="Jiadong Zhao" name="citation_author"/>
+  <meta content="Guillaume Sartoretti" name="citation_author"/>
+  <meta content="2025/12/04" name="citation_publication_date"/>
+  <meta content="https://arxiv.org/pdf/2512.04381" name="citation_pdf_url"/>
+ </head>
+ <body id="top">
+  <a class="skip-link" href="#main">
+   Skip to content
+  </a>
+  <header class="site-header">
+   <nav aria-label="Main navigation" class="container nav-inner">
+    <a aria-label="FALCON home" class="brand" href="index.html">
+     <img alt="" height="31" src="assets/icon/falcon.png" width="31"/>
+     FALCON
+    </a>
+    <button aria-controls="navigation" aria-expanded="false" class="menu-toggle" type="button">
+     Menu
+     <svg aria-hidden="true" class="icon" viewBox="0 0 24 24">
+      <path d="M4 7h16M4 12h16M4 17h16">
+      </path>
+     </svg>
+    </button>
+    <div class="nav-links" id="navigation">
+     <a data-section="abstract" href="#abstract">
+      Overview
+     </a>
+     <a data-section="framework" href="#framework">
+      Method
+     </a>
+     <a data-section="result" href="#result">
+      Experiments
+     </a>
+     <a href="about.html">
+      Team
+     </a>
+     <a class="nav-paper" href="https://arxiv.org/abs/2512.04381" rel="noopener noreferrer" target="_blank">
+      Read the paper
+      <svg aria-hidden="true" class="icon" viewBox="0 0 24 24">
+       <path d="M7 17 17 7M7 7h10v10">
+       </path>
+      </svg>
+     </a>
     </div>
-
-    <section id="abstract" class="section">
-      <div class="container">
-        <h2>Abstract</h2>
-                <div class="hero-text-img">
-              <p> <img src="assets/figure/banner.png" alt="Illustration" class="wrap-img">
-
-                  We present FoundAtion-model-guided decoupled LoCO-maNipulation visuomotor policies (FALCON), a framework for loco-manipulation that combines modular diffusion policies with a vision–language foundation model as the coordinator. 
-                  Our approach explicitly decouples locomotion and manipulation into two specialized visuomotor policies, allowing each subsystem to rely on its own observations. 
-                  This mitigates the performance degradation that arise when a single policy is forced to fuse heterogeneous, potentially mismatched observations from locomotion and manipulation.
-                  Our key innovation lies in restoring coordination between these two independent policies through a vision–language foundation model, which encodes global observations and language instructions into a shared latent embedding conditioning both diffusion policies. 
-                  On top of this backbone, we introduce a phase-progress head that uses textual descriptions of task stages to infer discrete phase and continuous progress estimates without manual phase labels.
-                  To further structure the latent space, we incorporate a coordination-aware contrastive loss that explicitly encodes cross-subsystem compatibility between arm and base actions. 
-                  We evaluate FALCON on two challenging loco-manipulation tasks requiring navigation, precise end-effector placement, and tight base-arm coordination. 
-                  Results show that it surpasses centralized and decentralized baselines while exhibiting improved robustness and generalization to out-of-distribution scenarios.</p>
-      </div>
-      </div>
+   </nav>
+  </header>
+  <main id="main" tabindex="-1">
+   <div class="container">
+    <section aria-labelledby="paper-title" class="hero">
+     <div class="eyebrow">
+      <span class="dot">
+      </span>
+      Robot learning
+      <span aria-hidden="true">
+       /
+      </span>
+      Loco-manipulation
+     </div>
+     <div aria-hidden="true" class="hero-wordmark">
+      FALCON
+     </div>
+     <h1 id="paper-title">
+      <span class="sr-only">
+       FALCON:
+      </span>
+      <span class="title-line">
+       Actively Decoupled Visuomotor Policies
+      </span>
+      <span class="title-line">
+       for Loco-Manipulation with
+      </span>
+      <span class="title-line">
+       Foundation-Model-Based Coordination
+      </span>
+     </h1>
+     <div aria-label="Authors" class="authors">
+      <a href="about.html#chengyang">
+       Chengyang He
+       <sup>
+        *
+       </sup>
+      </a>
+      <a href="about.html#ge-sun">
+       Ge Sun
+       <sup>
+        *
+       </sup>
+      </a>
+      <a href="about.html#yue-bai">
+       Yue Bai
+      </a>
+      <a href="about.html#junkai-lu">
+       Junkai Lu
+      </a>
+      <a href="about.html#jiadong-zhao">
+       Jiadong Zhao
+      </a>
+      <a href="about.html#guillaume-sartoretti">
+       Guillaume Sartoretti
+      </a>
+     </div>
+     <p class="affiliation">
+      National University of Singapore
+      <span aria-hidden="true" class="affiliation-dot">
+       ·
+      </span>
+      <span class="equal-note">
+       * Equal contribution
+      </span>
+     </p>
+     <div class="hero-actions">
+      <a class="button button-primary" href="https://arxiv.org/pdf/2512.04381" rel="noopener noreferrer" target="_blank">
+       <svg aria-hidden="true" class="icon" viewBox="0 0 24 24">
+        <path d="M14 3H6a1 1 0 0 0-1 1v16a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V8Z">
+        </path>
+        <path d="M14 3v6h5M9 13h6M9 17h6">
+        </path>
+       </svg>
+       Read the paper
+       <svg aria-hidden="true" class="icon" viewBox="0 0 24 24">
+        <path d="M7 17 17 7M7 7h10v10">
+        </path>
+       </svg>
+      </a>
+      <a class="button" data-watch-overview="" href="#videos">
+       <svg aria-hidden="true" class="icon" viewBox="0 0 24 24">
+        <path d="m9 5 11 7-11 7Z">
+        </path>
+       </svg>
+       Watch video
+      </a>
+      <a class="button" href="#publications">
+       <svg aria-hidden="true" class="icon" viewBox="0 0 24 24">
+        <path d="M8 7H4v6h5v4H4m15-10h-4v6h5v4h-5">
+        </path>
+       </svg>
+       BibTeX
+      </a>
+     </div>
     </section>
-    <!-- Framework Section -->
-    <section id="framework" class="section">
-      <div class="container">
-        <h2>Framework</h2>
-        <p><img src="assets/figure/framework_straight.png" alt="Illustration" class="wrap-img">
-          The blue and green regions denote the decoupled manipulator and quadruped diffusion policies, which act in their own observation and control spaces (wrist/body cameras and end-effector pose for the arm; head/body cameras, base velocity, and body height/pitch for the quadruped). 
-          The yellow region shows the foundation model module, which aggregates global RGB observations and the language instruction into a shared latent, while capture task phase and progress simultaneously; this task-representative latent is then used to jointly condition both diffusion policies, providing semantic coordination between the two subsystems.
-        </p>
-      </div>
+    <section aria-label="FALCON overview video" id="videos">
+     <div class="hero-video">
+      <video aria-label="FALCON research overview and experiment demonstrations" controls="" id="overview-video" playsinline="" poster="assets/posters/overview.webp" preload="none">
+       <source src="assets/demo/demo3.mp4" type="video/mp4"/>
+       <a href="assets/demo/demo3.mp4">
+        Download the overview video
+       </a>
+      </video>
+      <button aria-label="Play FALCON overview video" class="video-cover" hidden="" type="button">
+       <span class="video-label">
+        FALCON in the real world
+       </span>
+       <span class="play-disc">
+        <svg aria-hidden="true" class="icon" viewBox="0 0 24 24">
+         <path d="m9 5 11 7-11 7Z">
+         </path>
+        </svg>
+       </span>
+       <span class="video-caption">
+        Two policies.
+        <br/>
+        One coordinated system.
+       </span>
+       <span class="watch-label">
+        Watch the overview
+        <svg aria-hidden="true" class="icon" viewBox="0 0 24 24">
+         <path d="M7 17 17 7M7 7h10v10">
+         </path>
+        </svg>
+       </span>
+      </button>
+     </div>
+     <div class="video-footnote">
+      <span>
+       From visual understanding to coordinated whole-body action.
+      </span>
+      <span>
+       Research overview &amp; real-world demonstrations
+      </span>
+     </div>
     </section>
-
-    <section id="result" class="section">
-      <div class="container">
-        <h2>Result</h2>
-        <p><img src="assets/figure/pic2.png" alt="Illustration" class="wrap-img">
-          Overview of the manipulation tasks. 
-          The task on the left shows the quadruped–manipulator system approaching the drawer, adjusting its base pose for optimal arm reachability, opening the drawer, and placing a toy inside. 
-          The task on the right illustrates a complementary scenario in which the robot navigates to the drawer while holding a toy, places the toy into the already opened drawer, and then closes the drawer using pose-assisted whole-body manipulation. The top row shows synchronized egocentric camera observations for each stage, color-coded to match the corresponding robot pose, while the bottom row depicts the whole-body motions generated by the decoupled locomotion and manipulation policies.
+    <div aria-label="Research institutions" class="institutions">
+     <img alt="National University of Singapore" class="nus-logo" height="59" src="assets/optimized/nus_logo.webp" width="124"/>
+     <span aria-hidden="true" class="institution-divider">
+     </span>
+     <img alt="MARMot Lab" class="marmot-logo" height="51" src="assets/optimized/marmot_logo.webp" width="102"/>
+    </div>
+    <section aria-labelledby="overview-title" class="section" id="abstract">
+     <div class="overview-layout">
+      <div>
+       <p class="section-index">
+        01 / The idea
+       </p>
+       <h2 id="overview-title">
+        Independent policies.
+        <br/>
+        Shared understanding.
+       </h2>
+      </div>
+      <div class="overview-copy">
+       <p class="lead">
+        Moving and manipulating require different perspectives. FALCON gives each its own policy, then brings them together with a
+        <strong>
+         vision-language foundation model.
+        </strong>
+       </p>
+       <p>
+        Specialized diffusion policies act on their own observations. A shared representation of the scene, instruction, and task progress helps the arm and base work together.
+       </p>
+       <details class="abstract-details">
+        <summary>
+         Read the full abstract
+        </summary>
+        <p>
+         We present FoundAtion-model-guided decoupled LoCO-maNipulation visuomotor policies (FALCON), a framework for loco-manipulation that combines modular diffusion policies with a vision–language foundation model as the coordinator. Our approach explicitly decouples locomotion and manipulation into two specialized visuomotor policies, allowing each subsystem to rely on its own observations. This mitigates the performance degradation that arises when a single policy is forced to fuse heterogeneous, potentially mismatched observations from locomotion and manipulation. Our key innovation lies in restoring coordination between these two independent policies through a vision–language foundation model, which encodes global observations and language instructions into a shared latent embedding conditioning both diffusion policies. On top of this backbone, we introduce a phase-progress head that uses textual descriptions of task stages to infer discrete phase and continuous progress estimates without manual phase labels. To further structure the latent space, we incorporate a coordination-aware contrastive loss that explicitly encodes cross-subsystem compatibility between arm and base actions. We evaluate FALCON on two challenging loco-manipulation tasks requiring navigation, precise end-effector placement, and tight base-arm coordination. Results show that it surpasses centralized and decentralized baselines while exhibiting improved robustness and generalization to out-of-distribution scenarios.
         </p>
-        <div class="Task1-results">
-          <h3 id="task1">Task1: Place the yellow toy into open drawer and close</h3>
-          <h4>Task1 – Result of FALCON (10× Speed)</h4>
-          <div class="two-column-videos">
-            <div class="left-big">
-              <video autoplay loop muted playsinline>
-                <source src="assets/Task1_results/rqt/Task1_rqt_10_1.mp4" type="video/mp4">
-              </video>
-            </div>
-            <div class="right-stack">
-              <video autoplay loop muted playsinline>
-                <source src="assets/Task1_results/rqt/Task1_rqt_10_C1.mp4" type="video/mp4">
-              </video>
-              <video autoplay loop muted playsinline>
-                <source src="assets/Task1_results/rqt/Task1_rqt_10_C2.mp4" type="video/mp4">
-              </video>
-              <video autoplay loop muted playsinline>
-                <source src="assets/Task1_results/rqt/Task1_rqt_10_C3.mp4" type="video/mp4">
-              </video>
-            </div>
-          </div>
-
-          <h4>Task1 – Human-in-the-Loop: Teleoperate Subsystem (10× Speed)</h4>
-            <h5>Teleoperation: Base (Human-Controlled Locomotion)</h5>
-            <div class="img-video-row">
-              <img src="assets/figure/pic4.png" alt="Teleoperation Base Illustration">
-              <video autoplay loop muted playsinline>
-                <source src="assets/Task1_results/human_teleoperation/Task1_base_teleoperation_10.mp4" type="video/mp4">
-                Your browser does not support the video tag.
-              </video>
-            </div>
-
-
-            <h5>Teleoperation: Arm (Human-Controlled Manipulation)</h5>  
-          
-            <!-- 2x3 grid: 1 image + 5 videos (all same size). Hover to enlarge on pointer devices. -->
-            <div class="grid-2x3">
-              <div class="grid-item">
-                <!-- placeholder image; replace with a Task1-specific thumbnail if available -->
-                <img src="assets/figure/pic3.png" alt="Task1 thumbnail" />
-              </div>
-              <div class="grid-item">
-                <video autoplay loop muted playsinline>
-                  <source src="assets/Task1_results/human_teleoperation/Task1_human_teleoperation1.mp4" type="video/mp4">
-                </video>
-              </div>
-              <div class="grid-item">
-                <video autoplay loop muted playsinline>
-                  <source src="assets/Task1_results/human_teleoperation/Task1_human_teleoperation2.mp4" type="video/mp4">
-                </video>
-              </div>
-              <div class="grid-item">
-                <video autoplay loop muted playsinline>
-                  <source src="assets/Task1_results/human_teleoperation/Task1_human_teleoperation3.mp4" type="video/mp4">
-                </video>
-              </div>
-              <div class="grid-item">
-                <video autoplay loop muted playsinline>
-                  <source src="assets/Task1_results/human_teleoperation/Task1_human_teleoperation4.mp4" type="video/mp4">
-                </video>
-              </div>
-              <div class="grid-item">
-                <video autoplay loop muted playsinline>
-                  <source src="assets/Task1_results/human_teleoperation/Task1_human_teleoperation5.mp4" type="video/mp4">
-                </video>
-              </div>
-            </div>
-          </div>
-
-          <div class="Task2-results">
-          <h3 id="task2">Task2: Open drawer, pick the yellow toy, and place into drawer</h3>
-          <h4>Task2 – Result of FALCON (10× Speed)</h4>
-          <div class="two-column-videos">
-            <div class="left-big">
-              <video autoplay loop muted playsinline>
-                <source src="assets/Task2_results/rqt/Task2_rqt_10_1.mp4" type="video/mp4">
-              </video>
-            </div>
-            <div class="right-stack">
-              <video autoplay loop muted playsinline>
-                <source src="assets/Task2_results/rqt/Task2_rqt_10_C1.mp4" type="video/mp4">
-              </video>
-              <video autoplay loop muted playsinline>
-                <source src="assets/Task2_results/rqt/Task2_rqt_10_C2.mp4" type="video/mp4">
-              </video>
-              <video autoplay loop muted playsinline>
-                <source src="assets/Task2_results/rqt/Task2_rqt_10_C3.mp4" type="video/mp4">
-              </video>
-            </div>
-          </div>
-
-          <h4>Task2 – Human-in-the-Loop: Teleoperate Subsystem (10× Speed)</h4>
-            <h5>Teleoperation: Base (Human-Controlled Locomotion)</h5>
-            <div class="img-video-row">
-              <img src="assets/figure/pic4.png" alt="Teleoperation Base Illustration">
-              <video autoplay loop muted playsinline>
-                <source src="assets/Task2_results/human_teleoperation/Task2_base_teleoperation_10.mp4" type="video/mp4">
-                Your browser does not support the video tag.
-              </video>
-            </div>
-
-            <h5>Teleoperation: Arm (Human-Controlled Manipulation)</h5>
-
-            <!-- 2x3 grid: 1 image + 5 videos (all same size). Hover to enlarge on pointer devices. -->
-            <div class="grid-2x3">
-              <div class="grid-item">
-                <!-- placeholder image; replace with a Task2-specific thumbnail if available -->
-                <img src="assets/figure/pic3.png" alt="Task2 thumbnail" />
-              </div>
-              <div class="grid-item">
-                <video autoplay loop muted playsinline>
-                  <source src="assets/Task2_results/human_teleoperation/Task2_human_teleoperation1.mp4" type="video/mp4">
-                </video>
-              </div>
-              <div class="grid-item">
-                <video autoplay loop muted playsinline>
-                  <source src="assets/Task2_results/human_teleoperation/Task2_human_teleoperation2.mp4" type="video/mp4">
-                </video>
-              </div>
-              <div class="grid-item">
-                <video autoplay loop muted playsinline>
-                  <source src="assets/Task2_results/human_teleoperation/Task2_human_teleoperation3.mp4" type="video/mp4">
-                </video>
-              </div>
-              <div class="grid-item">
-                <video autoplay loop muted playsinline>
-                  <source src="assets/Task2_results/human_teleoperation/Task2_human_teleoperation4.mp4" type="video/mp4">
-                </video>
-              </div>
-              <div class="grid-item">
-                <video autoplay loop muted playsinline>
-                  <source src="assets/Task2_results/human_teleoperation/Task2_human_teleoperation5.mp4" type="video/mp4">
-                </video>
-              </div>
-            </div>
-
-          <h4>Task2 – Initial robot positions and example navigation trajectories (10× Speed)</h4>
-          <p><img src="assets/Task2_results/Task2_9_position.png" alt="Illustration" class="wrap-img">
-          Initial robot positions and example navigation trajectories for Task~2. 
-          The robot begins from multiple starting locations across the workspace and navigates toward the opened drawer. 
-          The color-coding indicates the three evaluation regions: green for the left area, orange for the center area, and blue for the right area. 
-          Note that the training data are primarily collected from the center region, making the left and right regions predominantly out-of-distribution (OOD) during evaluation.  
-          </p>
-          <div class="s1-video-mid">
-            <video autoplay loop muted playsinline>
-              <source src="assets/Task2_results/Task2_9_position.mp4" type="video/mp4">
-              Your browser does not support the video tag.
-            </video>
-            </div>
-
-          <div class="Task3-results">
-          <h3 id="task3">Task3: Hang the light brown hat on the yellow hook</h3>
-
-          <h4>Task3 – Random Placement Result of FALCON (5× Speed)</h4>
-          <div class="two-column-videos">
-            <div class="left-big">
-              <video autoplay loop muted playsinline>
-                <source src="assets/Task3_results/rqt/Task3_randomplacement1_rqt_5_1.mp4" type="video/mp4">
-              </video>
-            </div>
-            <div class="right-stack">
-              <video autoplay loop muted playsinline>
-                <source src="assets/Task3_results/rqt/Task3_randomplacement1_rqt_5_C1.mp4" type="video/mp4">
-              </video>
-              <video autoplay loop muted playsinline>
-                <source src="assets/Task3_results/rqt/Task3_randomplacement1_rqt_5_C2.mp4" type="video/mp4">
-              </video>
-              <video autoplay loop muted playsinline>
-                <source src="assets/Task3_results/rqt/Task3_randomplacement1_rqt_5_C3.mp4" type="video/mp4">
-              </video>
-            </div>
-          </div>
-
-          <!-- <h4>Task3 – Result of FALCON (5× Speed)</h4> -->
-          <div class="two-column-videos">
-            <div class="left-big">
-              <video autoplay loop muted playsinline>
-                <source src="assets/Task3_results/rqt/Task3_randomplacement2_rqt_5_1.mp4" type="video/mp4">
-              </video>
-            </div>
-            <div class="right-stack">
-              <video autoplay loop muted playsinline>
-                <source src="assets/Task3_results/rqt/Task3_randomplacement2_rqt_5_C1.mp4" type="video/mp4">
-              </video>
-              <video autoplay loop muted playsinline>
-                <source src="assets/Task3_results/rqt/Task3_randomplacement2_rqt_5_C2.mp4" type="video/mp4">
-              </video>
-              <video autoplay loop muted playsinline>
-                <source src="assets/Task3_results/rqt/Task3_randomplacement2_rqt_5_C3.mp4" type="video/mp4">
-              </video>
-            </div>
-          </div>
-
-          <h4>Task3 – External Disturbance Result of FALCON (5× Speed)</h4>
-          <div class="two-column-videos">
-            <div class="left-big">
-              <video autoplay loop muted playsinline>
-                <source src="assets/Task3_results/rqt/Task3_extranaldisturbance_rqt_5_1.mp4" type="video/mp4">
-              </video>
-            </div>
-            <div class="right-stack">
-              <video autoplay loop muted playsinline>
-                <source src="assets/Task3_results/rqt/Task3_extranaldisturbance_rqt_5_C1.mp4" type="video/mp4">
-              </video>
-              <video autoplay loop muted playsinline>
-                <source src="assets/Task3_results/rqt/Task3_extranaldisturbance_rqt_5_C2.mp4" type="video/mp4">
-              </video>
-              <video autoplay loop muted playsinline>
-                <source src="assets/Task3_results/rqt/Task3_extranaldisturbance_rqt_5_C3.mp4" type="video/mp4">
-              </video>
-            </div>
-          </div>
-
-
-          <div class="Task4-results">
-          <h3 id="task4">Task4: Pick up red parcel and place into yellow box</h3>
-
-          <h4>Task4 – Random Placement Result of FALCON (10× Speed)</h4>
-          <div class="two-column-videos">
-            <div class="left-big">
-              <video autoplay loop muted playsinline>
-                <source src="assets/Task4_results/rqt/Task4_randomplacement1_rqt_10_1.mp4" type="video/mp4">
-              </video>
-            </div>
-            <div class="right-stack">
-              <video autoplay loop muted playsinline>
-                <source src="assets/Task4_results/rqt/Task4_randomplacement1_rqt_10_C1.mp4" type="video/mp4">
-              </video>
-              <video autoplay loop muted playsinline>
-                <source src="assets/Task4_results/rqt/Task4_randomplacement1_rqt_10_C2.mp4" type="video/mp4">
-              </video>
-              <video autoplay loop muted playsinline>
-                <source src="assets/Task4_results/rqt/Task4_randomplacement1_rqt_10_C3.mp4" type="video/mp4">
-              </video>
-            </div>
-          </div>
-
-          <!-- <h4>task4 – Result of FALCON (5× Speed)</h4> -->
-          <div class="two-column-videos">
-            <div class="left-big">
-              <video autoplay loop muted playsinline>
-                <source src="assets/Task4_results/rqt/Task4_randomplacement2_rqt_10_1.mp4" type="video/mp4">
-              </video>
-            </div>
-            <div class="right-stack">
-              <video autoplay loop muted playsinline>
-                <source src="assets/Task4_results/rqt/Task4_randomplacement2_rqt_10_C1.mp4" type="video/mp4">
-              </video>
-              <video autoplay loop muted playsinline>
-                <source src="assets/Task4_results/rqt/Task4_randomplacement2_rqt_10_C2.mp4" type="video/mp4">
-              </video>
-              <video autoplay loop muted playsinline>
-                <source src="assets/Task4_results/rqt/Task4_randomplacement2_rqt_10_C3.mp4" type="video/mp4">
-              </video>
-            </div>
-          </div>
-
-          <h4>Task4 – External Disturbance Result of FALCON (10× Speed)</h4>
-          <div class="two-column-videos">
-            <div class="left-big">
-              <video class="hover-sound-video" autoplay loop muted playsinline>
-                <source src="assets/Task4_results/rqt/Task4_extranaldisturbance_rqt_10_1_nobgm.mp4" type="video/mp4">
-              </video>
-            </div>
-            <div class="right-stack">
-              <video autoplay loop muted playsinline>
-                <source src="assets/Task4_results/rqt/Task4_extranaldisturbance_rqt_10_C1.mp4" type="video/mp4">
-              </video>
-              <video autoplay loop muted playsinline>
-                <source src="assets/Task4_results/rqt/Task4_extranaldisturbance_rqt_10_C2.mp4" type="video/mp4">
-              </video>
-              <video autoplay loop muted playsinline>
-                <source src="assets/Task4_results/rqt/Task4_extranaldisturbance_rqt_10_C3.mp4" type="video/mp4">
-              </video>
-            </div>
-          </div>
-
-
+       </details>
+      </div>
+     </div>
+     <figure class="research-figure">
+      <div class="figure-surface">
+       <img alt="FALCON decouples the robot arm and quadruped policies, coordinating them through a vision-language model with shared latent, phase, and progress information." height="827" loading="lazy" src="assets/optimized/banner.webp" width="2200"/>
+      </div>
+      <figcaption>
+       <strong>
+        Decouple to specialize. Coordinate to act.
+       </strong>
+       FALCON connects locomotion and manipulation through a shared, task-aware representation.
+      </figcaption>
+     </figure>
+    </section>
+    <section aria-labelledby="method-title" class="section" id="framework">
+     <div class="section-heading">
+      <div>
+       <p class="section-index">
+        02 / The method
+       </p>
+       <h2 id="method-title">
+        Specialized control.
+        <br/>
+        Semantic coordination.
+       </h2>
+      </div>
+      <p>
+       A modular architecture connects local observations with a global understanding of the task.
+      </p>
+     </div>
+     <figure class="research-figure">
+      <div class="figure-surface">
+       <a aria-label="Open the full-resolution FALCON architecture diagram" href="assets/figure/framework_straight.png" rel="noopener noreferrer" target="_blank">
+        <img alt="Architecture: wrist, body, and head cameras feed a vision-language coordinator and two diffusion policies. The arm policy produces end-effector actions; the quadruped policy controls base motion." height="1388" loading="lazy" src="assets/optimized/framework_straight.webp" width="2200"/>
+       </a>
+      </div>
+      <figcaption>
+       <strong>
+        The FALCON architecture.
+       </strong>
+       Global RGB observations and language instructions condition both policies through a shared latent, task phase, and progress estimate.
+       <a class="text-link" href="assets/figure/framework_straight.png" rel="noopener noreferrer" target="_blank">
+        View full resolution ↗
+       </a>
+      </figcaption>
+     </figure>
+     <div class="method-points">
+      <article class="method-point">
+       <span class="point-number">
+        01
+       </span>
+       <h3>
+        Decoupled diffusion policies
+       </h3>
+       <p>
+        Dedicated arm and base policies learn in their own observation and action spaces.
+       </p>
+      </article>
+      <article class="method-point">
+       <span class="point-number">
+        02
+       </span>
+       <h3>
+        Task-aware coordination
+       </h3>
+       <p>
+        A foundation model provides shared context, with phase and progress inferred without manual phase labels.
+       </p>
+      </article>
+      <article class="method-point">
+       <span class="point-number">
+        03
+       </span>
+       <h3>
+        Compatible whole-body actions
+       </h3>
+       <p>
+        A coordination-aware contrastive objective aligns the two subsystems in the shared latent space.
+       </p>
+      </article>
+     </div>
+    </section>
+    <section aria-labelledby="experiments-title" class="section" id="result">
+     <div class="section-heading">
+      <div>
+       <p class="section-index">
+        03 / In the real world
+       </p>
+       <h2 id="experiments-title">
+        Coordination in action.
+       </h2>
+      </div>
+      <p>
+       Explore the task demonstrations, onboard observations, and additional robustness experiments.
+      </p>
+     </div>
+     <div aria-label="Choose an experiment" class="task-tabs" hidden="">
+      <button class="task-tab" data-task="task1" id="tab-task1" type="button">
+       <span>
+        Task 01
+       </span>
+       <strong>
+        Place &amp; close
+       </strong>
+      </button>
+      <button class="task-tab" data-task="task2" id="tab-task2" type="button">
+       <span>
+        Task 02
+       </span>
+       <strong>
+        Open &amp; place
+       </strong>
+      </button>
+      <button class="task-tab" data-task="task3" id="tab-task3" type="button">
+       <span>
+        Task 03
+       </span>
+       <strong>
+        Hang a hat
+       </strong>
+      </button>
+      <button class="task-tab" data-task="task4" id="tab-task4" type="button">
+       <span>
+        Task 04
+       </span>
+       <strong>
+        Place a parcel
+       </strong>
+      </button>
+     </div>
+     <div class="task-panel" id="task1">
+      <div class="task-description">
+       <div>
+        <h3>
+         Place the toy in the drawer, then close it.
+        </h3>
+        <p>
+         Coordinated navigation, object placement, and drawer closing.
+        </p>
+       </div>
+       <span class="speed-badge">
+        10× speed
+       </span>
+      </div>
+      <div class="video-group">
+       <div class="multi-view">
+        <figure class="video-tile">
+         <video aria-label="External view · FALCON rollout" controls="" muted="" playsinline="" poster="assets/posters/Task1_rqt_10_1.webp" preload="none">
+          <source src="assets/Task1_results/rqt/Task1_rqt_10_1.mp4" type="video/mp4"/>
+          <a href="assets/Task1_results/rqt/Task1_rqt_10_1.mp4">
+           Download this video
+          </a>
+         </video>
+         <figcaption>
+          External view · FALCON rollout
+         </figcaption>
+        </figure>
+        <div class="camera-views">
+         <figure class="video-tile">
+          <video aria-label="Camera 1" controls="" muted="" playsinline="" poster="assets/posters/Task1_rqt_10_C1.webp" preload="none">
+           <source src="assets/Task1_results/rqt/Task1_rqt_10_C1.mp4" type="video/mp4"/>
+           <a href="assets/Task1_results/rqt/Task1_rqt_10_C1.mp4">
+            Download this video
+           </a>
+          </video>
+          <figcaption>
+           Camera 1
+          </figcaption>
+         </figure>
+         <figure class="video-tile">
+          <video aria-label="Camera 2" controls="" muted="" playsinline="" poster="assets/posters/Task1_rqt_10_C2.webp" preload="none">
+           <source src="assets/Task1_results/rqt/Task1_rqt_10_C2.mp4" type="video/mp4"/>
+           <a href="assets/Task1_results/rqt/Task1_rqt_10_C2.mp4">
+            Download this video
+           </a>
+          </video>
+          <figcaption>
+           Camera 2
+          </figcaption>
+         </figure>
+         <figure class="video-tile">
+          <video aria-label="Camera 3" controls="" muted="" playsinline="" poster="assets/posters/Task1_rqt_10_C3.webp" preload="none">
+           <source src="assets/Task1_results/rqt/Task1_rqt_10_C3.mp4" type="video/mp4"/>
+           <a href="assets/Task1_results/rqt/Task1_rqt_10_C3.mp4">
+            Download this video
+           </a>
+          </video>
+          <figcaption>
+           Camera 3
+          </figcaption>
+         </figure>
         </div>
-      </div>
-    </section>
-
-    <section id="Cross-Embodiment Validation on a Wheeled Platform" class="section">
-      <div class="container">
-  <h3>Cross-Embodiment Validation on a Wheeled Platform</h3>
-        <h4 id="Wheeled1">Task1 (10× Speed)</h4>
-            <div class="s1-video-mid">
-              <video autoplay loop muted playsinline>
-                <source src="assets/Wheeled_results/Wheeled1.mp4" type="video/mp4">
-              </video>
-            </div>
-            <h4 id="Wheeled2">Task2 (10× Speed)</h4>
-            <div class="s1-video-mid">
-              <video autoplay loop muted playsinline>
-                <source src="assets/Wheeled_results/Wheeled2.mp4" type="video/mp4">
-              </video>
-            </div>
-      </div>
-    </section>
-
-    <!-- More Tasks -->
-    <section id="more-tasks" class="section">
-      <div class="container">
-  <h3>More Tasks <span class="more-ellipsis" aria-hidden="true"><span>.</span><span>.</span><span>.</span></span></h3>
-        <h4 id="task5">Task5 (10× Speed)</h4>
-            <div class="s1-video-mid">
-            <video autoplay loop muted playsinline>
-              <source src="assets/more_task/Task5_rqt_10.mp4" type="video/mp4">
-              Your browser does not support the video tag.
-            </video>
-            </div>
-      </div>
-    </section>
-
-
-  <!-- Full Videos -->
-  <section id="videos" class="section video-section">
-    <div class="container">
-      <h2>Introduction Video</h2>
-      <div class="video-wrapper intro">
-        <video class="intro-video" loop muted playsinline>
-          <source src="./assets/demo/demo3.mp4" type="video/mp4">
-          Your browser does not support HTML5 video.
-        </video>
-        <button class="video-overlay" aria-label="Play introduction video">
-          <!-- Simple play icon (SVG) -->
-          <svg viewBox="0 0 100 100" aria-hidden="true" focusable="false">
-            <circle cx="50" cy="50" r="48" fill="rgba(0,0,0,0.35)" />
-            <polygon points="40,30 70,50 40,70" fill="#fff" />
-          </svg>
+       </div>
+       <div class="playback-bar">
+        <button class="button group-play" hidden="" type="button">
+         <svg aria-hidden="true" class="icon" viewBox="0 0 24 24">
+          <path d="m9 5 11 7-11 7Z">
+          </path>
+         </svg>
+         <span>
+          Play all views
+         </span>
         </button>
+        <p>
+         External view + three onboard camera views
+        </p>
+       </div>
       </div>
-    </div>
-  </section>
-
-    <!-- Publications -->
-    <section id="publications" class="section">
-        <div class="container">
-            <h2>Bibtex</h2>
-            <pre class="bibtex"><code>@article{he2025falcon,
+      <details class="supplement">
+       <summary>
+        <span class="summary-label">
+         Human-in-the-loop control
+         <span class="summary-meta">
+          6 demonstrations
+         </span>
+        </span>
+       </summary>
+       <div class="supplement-body">
+        <p>
+         Control one subsystem while the learned policy operates the other. These demonstrations explore the modularity of FALCON’s decoupled policies.
+        </p>
+        <h4>
+         Human-controlled locomotion
+        </h4>
+        <div class="media-pair">
+         <img alt="Human-controlled base paired with the learned manipulation policy" height="425" loading="lazy" src="assets/optimized/pic4.webp" width="807"/>
+         <figure class="video-tile">
+          <video aria-label="Base teleoperation · 10× speed" controls="" muted="" playsinline="" poster="assets/posters/Task1_base_teleoperation_10.webp" preload="none">
+           <source src="assets/Task1_results/human_teleoperation/Task1_base_teleoperation_10.mp4" type="video/mp4"/>
+           <a href="assets/Task1_results/human_teleoperation/Task1_base_teleoperation_10.mp4">
+            Download this video
+           </a>
+          </video>
+          <figcaption>
+           Base teleoperation · 10× speed
+          </figcaption>
+         </figure>
+        </div>
+        <h4>
+         Human-controlled manipulation
+        </h4>
+        <div class="video-grid">
+         <img alt="Human-controlled arm paired with the learned locomotion policy" height="378" loading="lazy" src="assets/optimized/pic3.webp" width="718"/>
+         <figure class="video-tile">
+          <video aria-label="Arm teleoperation · trial 1" controls="" muted="" playsinline="" poster="assets/posters/Task1_human_teleoperation1.webp" preload="none">
+           <source src="assets/Task1_results/human_teleoperation/Task1_human_teleoperation1.mp4" type="video/mp4"/>
+           <a href="assets/Task1_results/human_teleoperation/Task1_human_teleoperation1.mp4">
+            Download this video
+           </a>
+          </video>
+          <figcaption>
+           Arm teleoperation · trial 1
+          </figcaption>
+         </figure>
+         <figure class="video-tile">
+          <video aria-label="Arm teleoperation · trial 2" controls="" muted="" playsinline="" poster="assets/posters/Task1_human_teleoperation2.webp" preload="none">
+           <source src="assets/Task1_results/human_teleoperation/Task1_human_teleoperation2.mp4" type="video/mp4"/>
+           <a href="assets/Task1_results/human_teleoperation/Task1_human_teleoperation2.mp4">
+            Download this video
+           </a>
+          </video>
+          <figcaption>
+           Arm teleoperation · trial 2
+          </figcaption>
+         </figure>
+         <figure class="video-tile">
+          <video aria-label="Arm teleoperation · trial 3" controls="" muted="" playsinline="" poster="assets/posters/Task1_human_teleoperation3.webp" preload="none">
+           <source src="assets/Task1_results/human_teleoperation/Task1_human_teleoperation3.mp4" type="video/mp4"/>
+           <a href="assets/Task1_results/human_teleoperation/Task1_human_teleoperation3.mp4">
+            Download this video
+           </a>
+          </video>
+          <figcaption>
+           Arm teleoperation · trial 3
+          </figcaption>
+         </figure>
+         <figure class="video-tile">
+          <video aria-label="Arm teleoperation · trial 4" controls="" muted="" playsinline="" poster="assets/posters/Task1_human_teleoperation4.webp" preload="none">
+           <source src="assets/Task1_results/human_teleoperation/Task1_human_teleoperation4.mp4" type="video/mp4"/>
+           <a href="assets/Task1_results/human_teleoperation/Task1_human_teleoperation4.mp4">
+            Download this video
+           </a>
+          </video>
+          <figcaption>
+           Arm teleoperation · trial 4
+          </figcaption>
+         </figure>
+         <figure class="video-tile">
+          <video aria-label="Arm teleoperation · trial 5" controls="" muted="" playsinline="" poster="assets/posters/Task1_human_teleoperation5.webp" preload="none">
+           <source src="assets/Task1_results/human_teleoperation/Task1_human_teleoperation5.mp4" type="video/mp4"/>
+           <a href="assets/Task1_results/human_teleoperation/Task1_human_teleoperation5.mp4">
+            Download this video
+           </a>
+          </video>
+          <figcaption>
+           Arm teleoperation · trial 5
+          </figcaption>
+         </figure>
+        </div>
+       </div>
+      </details>
+     </div>
+     <div class="task-panel" id="task2">
+      <div class="task-description">
+       <div>
+        <h3>
+         Open the drawer, pick the toy, and place it inside.
+        </h3>
+        <p>
+         A multi-stage sequence linking precise manipulation with base motion.
+        </p>
+       </div>
+       <span class="speed-badge">
+        10× speed
+       </span>
+      </div>
+      <div class="video-group">
+       <div class="multi-view">
+        <figure class="video-tile">
+         <video aria-label="External view · FALCON rollout" controls="" muted="" playsinline="" poster="assets/posters/Task2_rqt_10_1.webp" preload="none">
+          <source src="assets/Task2_results/rqt/Task2_rqt_10_1.mp4" type="video/mp4"/>
+          <a href="assets/Task2_results/rqt/Task2_rqt_10_1.mp4">
+           Download this video
+          </a>
+         </video>
+         <figcaption>
+          External view · FALCON rollout
+         </figcaption>
+        </figure>
+        <div class="camera-views">
+         <figure class="video-tile">
+          <video aria-label="Camera 1" controls="" muted="" playsinline="" poster="assets/posters/Task2_rqt_10_C1.webp" preload="none">
+           <source src="assets/Task2_results/rqt/Task2_rqt_10_C1.mp4" type="video/mp4"/>
+           <a href="assets/Task2_results/rqt/Task2_rqt_10_C1.mp4">
+            Download this video
+           </a>
+          </video>
+          <figcaption>
+           Camera 1
+          </figcaption>
+         </figure>
+         <figure class="video-tile">
+          <video aria-label="Camera 2" controls="" muted="" playsinline="" poster="assets/posters/Task2_rqt_10_C2.webp" preload="none">
+           <source src="assets/Task2_results/rqt/Task2_rqt_10_C2.mp4" type="video/mp4"/>
+           <a href="assets/Task2_results/rqt/Task2_rqt_10_C2.mp4">
+            Download this video
+           </a>
+          </video>
+          <figcaption>
+           Camera 2
+          </figcaption>
+         </figure>
+         <figure class="video-tile">
+          <video aria-label="Camera 3" controls="" muted="" playsinline="" poster="assets/posters/Task2_rqt_10_C3.webp" preload="none">
+           <source src="assets/Task2_results/rqt/Task2_rqt_10_C3.mp4" type="video/mp4"/>
+           <a href="assets/Task2_results/rqt/Task2_rqt_10_C3.mp4">
+            Download this video
+           </a>
+          </video>
+          <figcaption>
+           Camera 3
+          </figcaption>
+         </figure>
+        </div>
+       </div>
+       <div class="playback-bar">
+        <button class="button group-play" hidden="" type="button">
+         <svg aria-hidden="true" class="icon" viewBox="0 0 24 24">
+          <path d="m9 5 11 7-11 7Z">
+          </path>
+         </svg>
+         <span>
+          Play all views
+         </span>
+        </button>
+        <p>
+         External view + three onboard camera views
+        </p>
+       </div>
+      </div>
+      <details class="supplement">
+       <summary>
+        <span class="summary-label">
+         Human-in-the-loop control
+         <span class="summary-meta">
+          6 demonstrations
+         </span>
+        </span>
+       </summary>
+       <div class="supplement-body">
+        <p>
+         Control one subsystem while the learned policy operates the other. These demonstrations explore the modularity of FALCON’s decoupled policies.
+        </p>
+        <h4>
+         Human-controlled locomotion
+        </h4>
+        <div class="media-pair">
+         <img alt="Human-controlled base paired with the learned manipulation policy" height="425" loading="lazy" src="assets/optimized/pic4.webp" width="807"/>
+         <figure class="video-tile">
+          <video aria-label="Base teleoperation · 10× speed" controls="" muted="" playsinline="" poster="assets/posters/Task2_base_teleoperation_10.webp" preload="none">
+           <source src="assets/Task2_results/human_teleoperation/Task2_base_teleoperation_10.mp4" type="video/mp4"/>
+           <a href="assets/Task2_results/human_teleoperation/Task2_base_teleoperation_10.mp4">
+            Download this video
+           </a>
+          </video>
+          <figcaption>
+           Base teleoperation · 10× speed
+          </figcaption>
+         </figure>
+        </div>
+        <h4>
+         Human-controlled manipulation
+        </h4>
+        <div class="video-grid">
+         <img alt="Human-controlled arm paired with the learned locomotion policy" height="378" loading="lazy" src="assets/optimized/pic3.webp" width="718"/>
+         <figure class="video-tile">
+          <video aria-label="Arm teleoperation · trial 1" controls="" muted="" playsinline="" poster="assets/posters/Task2_human_teleoperation1.webp" preload="none">
+           <source src="assets/Task2_results/human_teleoperation/Task2_human_teleoperation1.mp4" type="video/mp4"/>
+           <a href="assets/Task2_results/human_teleoperation/Task2_human_teleoperation1.mp4">
+            Download this video
+           </a>
+          </video>
+          <figcaption>
+           Arm teleoperation · trial 1
+          </figcaption>
+         </figure>
+         <figure class="video-tile">
+          <video aria-label="Arm teleoperation · trial 2" controls="" muted="" playsinline="" poster="assets/posters/Task2_human_teleoperation2.webp" preload="none">
+           <source src="assets/Task2_results/human_teleoperation/Task2_human_teleoperation2.mp4" type="video/mp4"/>
+           <a href="assets/Task2_results/human_teleoperation/Task2_human_teleoperation2.mp4">
+            Download this video
+           </a>
+          </video>
+          <figcaption>
+           Arm teleoperation · trial 2
+          </figcaption>
+         </figure>
+         <figure class="video-tile">
+          <video aria-label="Arm teleoperation · trial 3" controls="" muted="" playsinline="" poster="assets/posters/Task2_human_teleoperation3.webp" preload="none">
+           <source src="assets/Task2_results/human_teleoperation/Task2_human_teleoperation3.mp4" type="video/mp4"/>
+           <a href="assets/Task2_results/human_teleoperation/Task2_human_teleoperation3.mp4">
+            Download this video
+           </a>
+          </video>
+          <figcaption>
+           Arm teleoperation · trial 3
+          </figcaption>
+         </figure>
+         <figure class="video-tile">
+          <video aria-label="Arm teleoperation · trial 4" controls="" muted="" playsinline="" poster="assets/posters/Task2_human_teleoperation4.webp" preload="none">
+           <source src="assets/Task2_results/human_teleoperation/Task2_human_teleoperation4.mp4" type="video/mp4"/>
+           <a href="assets/Task2_results/human_teleoperation/Task2_human_teleoperation4.mp4">
+            Download this video
+           </a>
+          </video>
+          <figcaption>
+           Arm teleoperation · trial 4
+          </figcaption>
+         </figure>
+         <figure class="video-tile">
+          <video aria-label="Arm teleoperation · trial 5" controls="" muted="" playsinline="" poster="assets/posters/Task2_human_teleoperation5.webp" preload="none">
+           <source src="assets/Task2_results/human_teleoperation/Task2_human_teleoperation5.mp4" type="video/mp4"/>
+           <a href="assets/Task2_results/human_teleoperation/Task2_human_teleoperation5.mp4">
+            Download this video
+           </a>
+          </video>
+          <figcaption>
+           Arm teleoperation · trial 5
+          </figcaption>
+         </figure>
+        </div>
+       </div>
+      </details>
+      <details class="supplement">
+       <summary>
+        <span class="summary-label">
+         Generalization to different starting positions
+         <span class="summary-meta">
+          9 initial positions
+         </span>
+        </span>
+       </summary>
+       <div class="supplement-body">
+        <p>
+         The robot starts from multiple locations across the workspace. Training demonstrations are primarily collected in the center region; left and right regions test out-of-distribution initial positions.
+        </p>
+        <figure class="positions-figure">
+         <img alt="Nine initial positions and trajectories grouped into left (green), center (orange), and right (blue) evaluation regions." height="904" loading="lazy" src="assets/optimized/positions.webp" width="1600"/>
+        </figure>
+        <figure class="video-tile">
+         <video aria-label="Initial-position evaluation · 10× speed" controls="" muted="" playsinline="" poster="assets/posters/Task2_9_position.webp" preload="none">
+          <source src="assets/Task2_results/Task2_9_position.mp4" type="video/mp4"/>
+          <a href="assets/Task2_results/Task2_9_position.mp4">
+           Download this video
+          </a>
+         </video>
+         <figcaption>
+          Initial-position evaluation · 10× speed
+         </figcaption>
+        </figure>
+       </div>
+      </details>
+     </div>
+     <div class="task-panel" id="task3">
+      <div class="task-description">
+       <div>
+        <h3>
+         Hang the light brown hat on the yellow hook.
+        </h3>
+        <p>
+         Precise placement with varying object positions and external disturbances.
+        </p>
+       </div>
+       <span class="speed-badge">
+        5× speed
+       </span>
+      </div>
+      <div class="video-group">
+       <div class="multi-view">
+        <figure class="video-tile">
+         <video aria-label="External view · FALCON rollout" controls="" muted="" playsinline="" poster="assets/posters/Task3_randomplacement1_rqt_5_1.webp" preload="none">
+          <source src="assets/Task3_results/rqt/Task3_randomplacement1_rqt_5_1.mp4" type="video/mp4"/>
+          <a href="assets/Task3_results/rqt/Task3_randomplacement1_rqt_5_1.mp4">
+           Download this video
+          </a>
+         </video>
+         <figcaption>
+          External view · FALCON rollout
+         </figcaption>
+        </figure>
+        <div class="camera-views">
+         <figure class="video-tile">
+          <video aria-label="Camera 1" controls="" muted="" playsinline="" poster="assets/posters/Task3_randomplacement1_rqt_5_C1.webp" preload="none">
+           <source src="assets/Task3_results/rqt/Task3_randomplacement1_rqt_5_C1.mp4" type="video/mp4"/>
+           <a href="assets/Task3_results/rqt/Task3_randomplacement1_rqt_5_C1.mp4">
+            Download this video
+           </a>
+          </video>
+          <figcaption>
+           Camera 1
+          </figcaption>
+         </figure>
+         <figure class="video-tile">
+          <video aria-label="Camera 2" controls="" muted="" playsinline="" poster="assets/posters/Task3_randomplacement1_rqt_5_C2.webp" preload="none">
+           <source src="assets/Task3_results/rqt/Task3_randomplacement1_rqt_5_C2.mp4" type="video/mp4"/>
+           <a href="assets/Task3_results/rqt/Task3_randomplacement1_rqt_5_C2.mp4">
+            Download this video
+           </a>
+          </video>
+          <figcaption>
+           Camera 2
+          </figcaption>
+         </figure>
+         <figure class="video-tile">
+          <video aria-label="Camera 3" controls="" muted="" playsinline="" poster="assets/posters/Task3_randomplacement1_rqt_5_C3.webp" preload="none">
+           <source src="assets/Task3_results/rqt/Task3_randomplacement1_rqt_5_C3.mp4" type="video/mp4"/>
+           <a href="assets/Task3_results/rqt/Task3_randomplacement1_rqt_5_C3.mp4">
+            Download this video
+           </a>
+          </video>
+          <figcaption>
+           Camera 3
+          </figcaption>
+         </figure>
+        </div>
+       </div>
+       <div class="playback-bar">
+        <button class="button group-play" hidden="" type="button">
+         <svg aria-hidden="true" class="icon" viewBox="0 0 24 24">
+          <path d="m9 5 11 7-11 7Z">
+          </path>
+         </svg>
+         <span>
+          Play all views
+         </span>
+        </button>
+        <p>
+         External view + three onboard camera views
+        </p>
+       </div>
+      </div>
+      <details class="supplement">
+       <summary>
+        <span class="summary-label">
+         Additional placement trial
+         <span class="summary-meta">
+          4 camera views
+         </span>
+        </span>
+       </summary>
+       <div class="supplement-body">
+        <div class="video-group">
+         <div class="multi-view">
+          <figure class="video-tile">
+           <video aria-label="External view · Placement trial 2" controls="" muted="" playsinline="" poster="assets/posters/Task3_randomplacement2_rqt_5_1.webp" preload="none">
+            <source src="assets/Task3_results/rqt/Task3_randomplacement2_rqt_5_1.mp4" type="video/mp4"/>
+            <a href="assets/Task3_results/rqt/Task3_randomplacement2_rqt_5_1.mp4">
+             Download this video
+            </a>
+           </video>
+           <figcaption>
+            External view · Placement trial 2
+           </figcaption>
+          </figure>
+          <div class="camera-views">
+           <figure class="video-tile">
+            <video aria-label="Camera 1" controls="" muted="" playsinline="" poster="assets/posters/Task3_randomplacement2_rqt_5_C1.webp" preload="none">
+             <source src="assets/Task3_results/rqt/Task3_randomplacement2_rqt_5_C1.mp4" type="video/mp4"/>
+             <a href="assets/Task3_results/rqt/Task3_randomplacement2_rqt_5_C1.mp4">
+              Download this video
+             </a>
+            </video>
+            <figcaption>
+             Camera 1
+            </figcaption>
+           </figure>
+           <figure class="video-tile">
+            <video aria-label="Camera 2" controls="" muted="" playsinline="" poster="assets/posters/Task3_randomplacement2_rqt_5_C2.webp" preload="none">
+             <source src="assets/Task3_results/rqt/Task3_randomplacement2_rqt_5_C2.mp4" type="video/mp4"/>
+             <a href="assets/Task3_results/rqt/Task3_randomplacement2_rqt_5_C2.mp4">
+              Download this video
+             </a>
+            </video>
+            <figcaption>
+             Camera 2
+            </figcaption>
+           </figure>
+           <figure class="video-tile">
+            <video aria-label="Camera 3" controls="" muted="" playsinline="" poster="assets/posters/Task3_randomplacement2_rqt_5_C3.webp" preload="none">
+             <source src="assets/Task3_results/rqt/Task3_randomplacement2_rqt_5_C3.mp4" type="video/mp4"/>
+             <a href="assets/Task3_results/rqt/Task3_randomplacement2_rqt_5_C3.mp4">
+              Download this video
+             </a>
+            </video>
+            <figcaption>
+             Camera 3
+            </figcaption>
+           </figure>
+          </div>
+         </div>
+         <div class="playback-bar">
+          <button class="button group-play" hidden="" type="button">
+           <svg aria-hidden="true" class="icon" viewBox="0 0 24 24">
+            <path d="m9 5 11 7-11 7Z">
+            </path>
+           </svg>
+           <span>
+            Play all views
+           </span>
+          </button>
+          <p>
+           External view + three onboard camera views
+          </p>
+         </div>
+        </div>
+       </div>
+      </details>
+      <details class="supplement">
+       <summary>
+        <span class="summary-label">
+         Response to external disturbances
+         <span class="summary-meta">
+          4 camera views
+         </span>
+        </span>
+       </summary>
+       <div class="supplement-body">
+        <div class="video-group">
+         <div class="multi-view">
+          <figure class="video-tile">
+           <video aria-label="External view · External disturbance" controls="" muted="" playsinline="" poster="assets/posters/Task3_extranaldisturbance_rqt_5_1.webp" preload="none">
+            <source src="assets/Task3_results/rqt/Task3_extranaldisturbance_rqt_5_1.mp4" type="video/mp4"/>
+            <a href="assets/Task3_results/rqt/Task3_extranaldisturbance_rqt_5_1.mp4">
+             Download this video
+            </a>
+           </video>
+           <figcaption>
+            External view · External disturbance
+           </figcaption>
+          </figure>
+          <div class="camera-views">
+           <figure class="video-tile">
+            <video aria-label="Camera 1" controls="" muted="" playsinline="" poster="assets/posters/Task3_extranaldisturbance_rqt_5_C1.webp" preload="none">
+             <source src="assets/Task3_results/rqt/Task3_extranaldisturbance_rqt_5_C1.mp4" type="video/mp4"/>
+             <a href="assets/Task3_results/rqt/Task3_extranaldisturbance_rqt_5_C1.mp4">
+              Download this video
+             </a>
+            </video>
+            <figcaption>
+             Camera 1
+            </figcaption>
+           </figure>
+           <figure class="video-tile">
+            <video aria-label="Camera 2" controls="" muted="" playsinline="" poster="assets/posters/Task3_extranaldisturbance_rqt_5_C2.webp" preload="none">
+             <source src="assets/Task3_results/rqt/Task3_extranaldisturbance_rqt_5_C2.mp4" type="video/mp4"/>
+             <a href="assets/Task3_results/rqt/Task3_extranaldisturbance_rqt_5_C2.mp4">
+              Download this video
+             </a>
+            </video>
+            <figcaption>
+             Camera 2
+            </figcaption>
+           </figure>
+           <figure class="video-tile">
+            <video aria-label="Camera 3" controls="" muted="" playsinline="" poster="assets/posters/Task3_extranaldisturbance_rqt_5_C3.webp" preload="none">
+             <source src="assets/Task3_results/rqt/Task3_extranaldisturbance_rqt_5_C3.mp4" type="video/mp4"/>
+             <a href="assets/Task3_results/rqt/Task3_extranaldisturbance_rqt_5_C3.mp4">
+              Download this video
+             </a>
+            </video>
+            <figcaption>
+             Camera 3
+            </figcaption>
+           </figure>
+          </div>
+         </div>
+         <div class="playback-bar">
+          <button class="button group-play" hidden="" type="button">
+           <svg aria-hidden="true" class="icon" viewBox="0 0 24 24">
+            <path d="m9 5 11 7-11 7Z">
+            </path>
+           </svg>
+           <span>
+            Play all views
+           </span>
+          </button>
+          <p>
+           External view + three onboard camera views
+          </p>
+         </div>
+        </div>
+       </div>
+      </details>
+     </div>
+     <div class="task-panel" id="task4">
+      <div class="task-description">
+       <div>
+        <h3>
+         Pick up the red parcel and place it in the yellow box.
+        </h3>
+        <p>
+         Whole-body manipulation under varied placements and external disturbances.
+        </p>
+       </div>
+       <span class="speed-badge">
+        10× speed
+       </span>
+      </div>
+      <div class="video-group">
+       <div class="multi-view">
+        <figure class="video-tile">
+         <video aria-label="External view · FALCON rollout" controls="" muted="" playsinline="" poster="assets/posters/Task4_randomplacement1_rqt_10_1.webp" preload="none">
+          <source src="assets/Task4_results/rqt/Task4_randomplacement1_rqt_10_1.mp4" type="video/mp4"/>
+          <a href="assets/Task4_results/rqt/Task4_randomplacement1_rqt_10_1.mp4">
+           Download this video
+          </a>
+         </video>
+         <figcaption>
+          External view · FALCON rollout
+         </figcaption>
+        </figure>
+        <div class="camera-views">
+         <figure class="video-tile">
+          <video aria-label="Camera 1" controls="" muted="" playsinline="" poster="assets/posters/Task4_randomplacement1_rqt_10_C1.webp" preload="none">
+           <source src="assets/Task4_results/rqt/Task4_randomplacement1_rqt_10_C1.mp4" type="video/mp4"/>
+           <a href="assets/Task4_results/rqt/Task4_randomplacement1_rqt_10_C1.mp4">
+            Download this video
+           </a>
+          </video>
+          <figcaption>
+           Camera 1
+          </figcaption>
+         </figure>
+         <figure class="video-tile">
+          <video aria-label="Camera 2" controls="" muted="" playsinline="" poster="assets/posters/Task4_randomplacement1_rqt_10_C2.webp" preload="none">
+           <source src="assets/Task4_results/rqt/Task4_randomplacement1_rqt_10_C2.mp4" type="video/mp4"/>
+           <a href="assets/Task4_results/rqt/Task4_randomplacement1_rqt_10_C2.mp4">
+            Download this video
+           </a>
+          </video>
+          <figcaption>
+           Camera 2
+          </figcaption>
+         </figure>
+         <figure class="video-tile">
+          <video aria-label="Camera 3" controls="" muted="" playsinline="" poster="assets/posters/Task4_randomplacement1_rqt_10_C3.webp" preload="none">
+           <source src="assets/Task4_results/rqt/Task4_randomplacement1_rqt_10_C3.mp4" type="video/mp4"/>
+           <a href="assets/Task4_results/rqt/Task4_randomplacement1_rqt_10_C3.mp4">
+            Download this video
+           </a>
+          </video>
+          <figcaption>
+           Camera 3
+          </figcaption>
+         </figure>
+        </div>
+       </div>
+       <div class="playback-bar">
+        <button class="button group-play" hidden="" type="button">
+         <svg aria-hidden="true" class="icon" viewBox="0 0 24 24">
+          <path d="m9 5 11 7-11 7Z">
+          </path>
+         </svg>
+         <span>
+          Play all views
+         </span>
+        </button>
+        <p>
+         External view + three onboard camera views
+        </p>
+       </div>
+      </div>
+      <details class="supplement">
+       <summary>
+        <span class="summary-label">
+         Additional placement trial
+         <span class="summary-meta">
+          4 camera views
+         </span>
+        </span>
+       </summary>
+       <div class="supplement-body">
+        <div class="video-group">
+         <div class="multi-view">
+          <figure class="video-tile">
+           <video aria-label="External view · Placement trial 2" controls="" muted="" playsinline="" poster="assets/posters/Task4_randomplacement2_rqt_10_1.webp" preload="none">
+            <source src="assets/Task4_results/rqt/Task4_randomplacement2_rqt_10_1.mp4" type="video/mp4"/>
+            <a href="assets/Task4_results/rqt/Task4_randomplacement2_rqt_10_1.mp4">
+             Download this video
+            </a>
+           </video>
+           <figcaption>
+            External view · Placement trial 2
+           </figcaption>
+          </figure>
+          <div class="camera-views">
+           <figure class="video-tile">
+            <video aria-label="Camera 1" controls="" muted="" playsinline="" poster="assets/posters/Task4_randomplacement2_rqt_10_C1.webp" preload="none">
+             <source src="assets/Task4_results/rqt/Task4_randomplacement2_rqt_10_C1.mp4" type="video/mp4"/>
+             <a href="assets/Task4_results/rqt/Task4_randomplacement2_rqt_10_C1.mp4">
+              Download this video
+             </a>
+            </video>
+            <figcaption>
+             Camera 1
+            </figcaption>
+           </figure>
+           <figure class="video-tile">
+            <video aria-label="Camera 2" controls="" muted="" playsinline="" poster="assets/posters/Task4_randomplacement2_rqt_10_C2.webp" preload="none">
+             <source src="assets/Task4_results/rqt/Task4_randomplacement2_rqt_10_C2.mp4" type="video/mp4"/>
+             <a href="assets/Task4_results/rqt/Task4_randomplacement2_rqt_10_C2.mp4">
+              Download this video
+             </a>
+            </video>
+            <figcaption>
+             Camera 2
+            </figcaption>
+           </figure>
+           <figure class="video-tile">
+            <video aria-label="Camera 3" controls="" muted="" playsinline="" poster="assets/posters/Task4_randomplacement2_rqt_10_C3.webp" preload="none">
+             <source src="assets/Task4_results/rqt/Task4_randomplacement2_rqt_10_C3.mp4" type="video/mp4"/>
+             <a href="assets/Task4_results/rqt/Task4_randomplacement2_rqt_10_C3.mp4">
+              Download this video
+             </a>
+            </video>
+            <figcaption>
+             Camera 3
+            </figcaption>
+           </figure>
+          </div>
+         </div>
+         <div class="playback-bar">
+          <button class="button group-play" hidden="" type="button">
+           <svg aria-hidden="true" class="icon" viewBox="0 0 24 24">
+            <path d="m9 5 11 7-11 7Z">
+            </path>
+           </svg>
+           <span>
+            Play all views
+           </span>
+          </button>
+          <p>
+           External view + three onboard camera views
+          </p>
+         </div>
+        </div>
+       </div>
+      </details>
+      <details class="supplement">
+       <summary>
+        <span class="summary-label">
+         Response to external disturbances
+         <span class="summary-meta">
+          4 camera views
+         </span>
+        </span>
+       </summary>
+       <div class="supplement-body">
+        <div class="video-group">
+         <div class="multi-view">
+          <figure class="video-tile">
+           <video aria-label="External view · External disturbance" controls="" muted="" playsinline="" poster="assets/posters/Task4_extranaldisturbance_rqt_10_1_nobgm.webp" preload="none">
+            <source src="assets/Task4_results/rqt/Task4_extranaldisturbance_rqt_10_1_nobgm.mp4" type="video/mp4"/>
+            <a href="assets/Task4_results/rqt/Task4_extranaldisturbance_rqt_10_1_nobgm.mp4">
+             Download this video
+            </a>
+           </video>
+           <figcaption>
+            External view · External disturbance
+           </figcaption>
+          </figure>
+          <div class="camera-views">
+           <figure class="video-tile">
+            <video aria-label="Camera 1" controls="" muted="" playsinline="" poster="assets/posters/Task4_extranaldisturbance_rqt_10_C1.webp" preload="none">
+             <source src="assets/Task4_results/rqt/Task4_extranaldisturbance_rqt_10_C1.mp4" type="video/mp4"/>
+             <a href="assets/Task4_results/rqt/Task4_extranaldisturbance_rqt_10_C1.mp4">
+              Download this video
+             </a>
+            </video>
+            <figcaption>
+             Camera 1
+            </figcaption>
+           </figure>
+           <figure class="video-tile">
+            <video aria-label="Camera 2" controls="" muted="" playsinline="" poster="assets/posters/Task4_extranaldisturbance_rqt_10_C2.webp" preload="none">
+             <source src="assets/Task4_results/rqt/Task4_extranaldisturbance_rqt_10_C2.mp4" type="video/mp4"/>
+             <a href="assets/Task4_results/rqt/Task4_extranaldisturbance_rqt_10_C2.mp4">
+              Download this video
+             </a>
+            </video>
+            <figcaption>
+             Camera 2
+            </figcaption>
+           </figure>
+           <figure class="video-tile">
+            <video aria-label="Camera 3" controls="" muted="" playsinline="" poster="assets/posters/Task4_extranaldisturbance_rqt_10_C3.webp" preload="none">
+             <source src="assets/Task4_results/rqt/Task4_extranaldisturbance_rqt_10_C3.mp4" type="video/mp4"/>
+             <a href="assets/Task4_results/rqt/Task4_extranaldisturbance_rqt_10_C3.mp4">
+              Download this video
+             </a>
+            </video>
+            <figcaption>
+             Camera 3
+            </figcaption>
+           </figure>
+          </div>
+         </div>
+         <div class="playback-bar">
+          <button class="button group-play" hidden="" type="button">
+           <svg aria-hidden="true" class="icon" viewBox="0 0 24 24">
+            <path d="m9 5 11 7-11 7Z">
+            </path>
+           </svg>
+           <span>
+            Play all views
+           </span>
+          </button>
+          <p>
+           External view + three onboard camera views
+          </p>
+         </div>
+        </div>
+       </div>
+      </details>
+     </div>
+     <div class="secondary-results">
+      <h3>
+       Beyond the main demonstrations.
+      </h3>
+      <details class="supplement">
+       <summary>
+        <span class="summary-label">
+         Task sequences at a glance
+         <span class="summary-meta">
+         </span>
+        </span>
+       </summary>
+       <div class="supplement-body">
+        <figure class="research-figure">
+         <img alt="Two drawer-manipulation task sequences, with egocentric camera observations above and corresponding whole-body robot poses below." height="465" loading="lazy" src="assets/optimized/pic2.webp" width="1671"/>
+         <figcaption>
+          Egocentric observations and whole-body motions illustrate successive stages of the two drawer tasks.
+         </figcaption>
+        </figure>
+       </div>
+      </details>
+      <details class="supplement">
+       <summary>
+        <span class="summary-label">
+         Cross-embodiment validation
+         <span class="summary-meta">
+          Wheeled platform
+         </span>
+        </span>
+       </summary>
+       <div class="supplement-body">
+        <p>
+         The framework is also evaluated on a wheeled mobile manipulation platform.
+        </p>
+        <div class="media-pair">
+         <figure class="video-tile" id="Wheeled1">
+          <video aria-label="Wheeled platform · Task 1 · 10× speed" controls="" muted="" playsinline="" poster="assets/posters/Wheeled1.webp" preload="none">
+           <source src="assets/Wheeled_results/Wheeled1.mp4" type="video/mp4"/>
+           <a href="assets/Wheeled_results/Wheeled1.mp4">
+            Download this video
+           </a>
+          </video>
+          <figcaption>
+           Wheeled platform · Task 1 · 10× speed
+          </figcaption>
+         </figure>
+         <figure class="video-tile" id="Wheeled2">
+          <video aria-label="Wheeled platform · Task 2 · 10× speed" controls="" muted="" playsinline="" poster="assets/posters/Wheeled2.webp" preload="none">
+           <source src="assets/Wheeled_results/Wheeled2.mp4" type="video/mp4"/>
+           <a href="assets/Wheeled_results/Wheeled2.mp4">
+            Download this video
+           </a>
+          </video>
+          <figcaption>
+           Wheeled platform · Task 2 · 10× speed
+          </figcaption>
+         </figure>
+        </div>
+       </div>
+      </details>
+      <details class="supplement" id="more-tasks">
+       <summary>
+        <span class="summary-label">
+         An additional manipulation task
+         <span class="summary-meta">
+          10× speed
+         </span>
+        </span>
+       </summary>
+       <div class="supplement-body">
+        <figure class="video-tile" id="task5">
+         <video aria-label="Task 5 · 10× speed" controls="" muted="" playsinline="" poster="assets/posters/Task5_rqt_10.webp" preload="none">
+          <source src="assets/more_task/Task5_rqt_10.mp4" type="video/mp4"/>
+          <a href="assets/more_task/Task5_rqt_10.mp4">
+           Download this video
+          </a>
+         </video>
+         <figcaption>
+          Task 5 · 10× speed
+         </figcaption>
+        </figure>
+       </div>
+      </details>
+     </div>
+    </section>
+    <section aria-labelledby="citation-title" class="section citation-section" id="publications">
+     <div class="section-heading citation-heading">
+      <div>
+       <p class="section-index">
+        04 / Reference
+       </p>
+       <h2 id="citation-title">
+        Cite this work.
+       </h2>
+       <p class="citation-description">
+        If FALCON is useful to your research, please consider citing our paper.
+       </p>
+      </div>
+      <button class="button" hidden="" id="copy-citation" type="button">
+       <svg aria-hidden="true" class="icon" viewBox="0 0 24 24">
+        <rect height="13" rx="2" width="12" x="8" y="8">
+        </rect>
+        <path d="M16 8V4a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1v11a1 1 0 0 0 1 1h4">
+        </path>
+       </svg>
+       <span>
+        Copy BibTeX
+       </span>
+      </button>
+     </div>
+     <div class="citation-box">
+      <div class="code-header">
+       <span>
+        BIBTEX
+       </span>
+       <span>
+        arXiv:2512.04381 · 2025
+       </span>
+      </div>
+      <pre class="bibtex"><code id="citation-text">@article{he2025falcon,
   title={FALCON: Actively Decoupled Visuomotor Policies for Loco-Manipulation with Foundation-Model-Based Coordination},
   author={He, Chengyang and Sun, Ge and Bai, Yue and Lu, Junkai and Zhao, Jiadong and Sartoretti, Guillaume},
   journal={arXiv preprint arXiv:2512.04381},
   year={2025}
 }</code></pre>
-        </div>
+     </div>
+     <p aria-live="polite" class="status" id="citation-status" role="status">
+     </p>
     </section>
-
-    <!-- Contact -->
-    <section id="contact" class="section">
-        <div class="container">
-            <h2>Contact</h2>
-            <p>If you have any questions, feel free to contact <a href="mailto:chengyanghe@u.nus.edu">Chengyang He</a>
-              , <a href="mailto:sunge@u.nus.edu">Ge Sun</a>
-              , and <a href="mailto:y_bai.07@u.nus.edu">Yue Bai</a>.</p>
-        </div>
-    </section>
-
-
-    <footer>
-        <div class="container">
-            <p>© 2025 FALCON: Actively Decoupled Visuomotor Policies for Loco-Manipulation with Foundation-Model-Based Coordination</p>
-        </div>
-    </footer>
-</body>
+   </div>
+  </main>
+  <div class="container">
+   <section aria-labelledby="contact-title" class="contact-band" id="contact">
+    <div>
+     <h2 id="contact-title">
+      Let’s talk research.
+     </h2>
+     <p>
+      Questions about FALCON? Get in touch with the team.
+     </p>
+    </div>
+    <div class="contact-links">
+     <a href="mailto:chengyanghe@u.nus.edu">
+      Chengyang He ↗
+     </a>
+     <a href="mailto:sunge@u.nus.edu">
+      Ge Sun ↗
+     </a>
+     <a href="mailto:y_bai.07@u.nus.edu">
+      Yue Bai ↗
+     </a>
+    </div>
+   </section>
+  </div>
+  <footer class="site-footer">
+   <div class="container footer-inner">
+    <span class="footer-brand">
+     FALCON
+    </span>
+    <p>
+     © 2025 FALCON · National University of Singapore
+    </p>
+    <a href="#top">
+     Back to top
+     <svg aria-hidden="true" class="icon" viewBox="0 0 24 24">
+      <path d="M12 19V5m-6 6 6-6 6 6">
+      </path>
+     </svg>
+    </a>
+   </div>
+  </footer>
+  <p aria-live="polite" class="sr-only" id="media-status" role="status">
+  </p>
+ </body>
 </html>
-
